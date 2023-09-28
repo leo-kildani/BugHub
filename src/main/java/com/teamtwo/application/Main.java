@@ -10,12 +10,10 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    // Run FXML Application
     public static void main(String[] args) {
         launch(args);
     }
 
-    // Build FXML Application
     @Override
     public void start(Stage mainStage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/Main.fxml")));
