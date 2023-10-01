@@ -1,0 +1,34 @@
+package com.teamtwo.entity;
+
+import lombok.Getter;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Getter
+public class Ticket extends AbstractEntry{
+
+    /**
+     * The project that this ticket is associated with.
+     */
+    private final Project project;
+
+    /**
+     * A map of comments associated with this ticket, stored using their ids. Initialized as an empty HashMap.
+     */
+    private final Map<Integer, Comment> comments;
+
+    /**
+     * Construct a Ticket object with the provided id, title, descr, and project.
+     *
+     * @param id id associated with this ticket
+     * @param title title associated with this ticket
+     * @param descr description associated with this ticket
+     * @param project project this ticket is associated with
+     */
+    public Ticket(int id, String title, String descr, Project project) {
+        super(id, title, descr);
+        this.project = project;
+        comments = new HashMap<>();
+    }
+}
