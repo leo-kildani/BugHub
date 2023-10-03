@@ -21,7 +21,6 @@ public class Project extends AbstractEntry {
      * @param title title associated with this project
      * @param descr description associated with this project
      * @param date date associated with this project
-     * {@link Project#tickets}
      */
     public Project(int id, String title, String descr, LocalDate date) {
         super(id, title, descr, date);

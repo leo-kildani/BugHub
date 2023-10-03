@@ -9,9 +9,9 @@ import java.util.Map;
 public class Ticket extends AbstractEntry{
 
     /**
-     * The project that this ticket is associated with.
+     * The id of the project that this ticket is associated with.
      */
-    private final Project project;
+    private final int projectId;
 
     /**
      * A map of comments associated with this ticket, stored using their ids. Initialized as an empty HashMap.
@@ -24,11 +24,11 @@ public class Ticket extends AbstractEntry{
      * @param id id associated with this ticket
      * @param title title associated with this ticket
      * @param descr description associated with this ticket
-     * @param project project this ticket is associated with
+     * @param projectId id of project this ticket is associated with
      */
-    public Ticket(int id, String title, String descr, Project project) {
+    public Ticket(int id, String title, String descr, int projectId) {
         super(id, title, descr);
-        this.project = project;
+        this.projectId = projectId;
         comments = new HashMap<>();
     }
 }
