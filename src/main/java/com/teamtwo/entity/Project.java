@@ -15,6 +15,14 @@ public class Project extends AbstractEntry {
     private final Map<Integer, Ticket> tickets;
 
     /**
+     * Default Constructor
+     */
+    public Project() {
+        super();
+        this.tickets = new HashMap<>();
+    }
+
+    /**
      * Construct a Project object with the provided id, title, and descr, and date. A super call to AbstractEntry is made to initialize listed fields.
      *
      * @param id id associated with this project

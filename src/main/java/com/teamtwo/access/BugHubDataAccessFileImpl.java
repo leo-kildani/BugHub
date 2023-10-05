@@ -1,35 +1,38 @@
 package com.teamtwo.access;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.teamtwo.entity.Comment;
 import com.teamtwo.entity.Project;
 import com.teamtwo.entity.Ticket;
-
-import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class BugHubDataAccessFileImpl implements BugHubDataAccess{
+public class BugHubDataAccessFileImpl implements BugHubDataAccess {
 
-    private Map<Integer, Project> projectMap;
+    private final Map<Integer, Project> projectMap;
 
-    private final String DATA_FILE;
+    private final String DATA_FILE_PATH;
 
     private final ObjectMapper mapper;
 
     public BugHubDataAccessFileImpl() {
-        this.DATA_FILE = Objects.requireNonNull(getClass()
-                .getClassLoader()
-                .getResource("data/"))
-                .getPath() + "data.json";
+        this.DATA_FILE_PATH = "src/main/resources/data/data.json";
         this.mapper = new ObjectMapper();
-        load();
+        this.mapper.registerModule(new JavaTimeModule());
+        this.projectMap = load();
+    }
+
+    public BugHubDataAccessFileImpl(String fileName) {
+        this.DATA_FILE_PATH = "src/main/resources/data/" + fileName;
+        this.mapper = new ObjectMapper();
+        this.mapper.registerModule(new JavaTimeModule());
+        this.projectMap = load();
     }
 
     @Override
@@ -77,22 +80,24 @@ public class BugHubDataAccessFileImpl implements BugHubDataAccess{
         return ticket.getComments().get(commentId);
     }
 
-    @PreDestroy
-    private void close() {
+    @Override
+    public void close() {
         try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(DATA_FILE), projectMap);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(DATA_FILE_PATH), projectMap);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void load() {
+    private Map<Integer, Project> load() {
+        Map <Integer, Project> res = null;
         try {
             TypeFactory factory = TypeFactory.defaultInstance();
             MapType mapType = factory.constructMapType(HashMap.class, Integer.class, Project.class);
-            projectMap = mapper.readValue(new File(DATA_FILE), mapType);
+            res = mapper.readValue(new File(DATA_FILE_PATH), mapType);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            res = new HashMap<>();
         }
+        return res;
     }
 }

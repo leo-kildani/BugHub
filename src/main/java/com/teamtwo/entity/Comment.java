@@ -1,14 +1,23 @@
 package com.teamtwo.entity;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class Comment extends AbstractEntry {
 
     /**
      * The id of the ticket that this comment is associated with.
      */
-    private final int ticketId;
+    private int ticketId;
+
+    /**
+     * Default Constructor
+     */
+    public Comment() {
+        super();
+    }
 
     /**
      * Construct a Comment object with a provided id, title, and description. A super call to AbstractEntry is made using the provided arguments.

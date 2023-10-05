@@ -79,4 +79,9 @@ public interface BugHubDataAccess {
      * @return comment if comment was found with given id; null otherwise
      */
     public Comment getComment(Ticket ticket, int commentId);
+
+    /**
+     * Used to close any access to stored data. Either closing a file source or closing a database connection.
+     */
+    public void close();
 }
