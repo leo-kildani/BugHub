@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import userInterface.MainMenu;
+import userInterface.ProjectPage;
 
 import java.util.Objects;
 
@@ -20,12 +22,11 @@ public class Main extends Application {
     // This method runs javafx application
     @Override
     public void start(Stage mainStage) throws Exception {
-        ClassLoader classLoader = getClass().getClassLoader();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(classLoader.getResource("fxml/Main.fxml")));
-        Scene mainScene = new Scene(root);
-        String mainPageCss = Objects.requireNonNull(classLoader.getResource("css/application.css")).toExternalForm();
-        mainScene.getStylesheets().add(mainPageCss);
+        MainMenu mainMenu = new MainMenu();
+        Scene mainScene = new Scene(mainMenu);
+        mainScene.getStylesheets().add(mainMenu.getCss());
         mainStage.setScene(mainScene);
+        mainStage.setResizable(false);
         mainStage.show();
     }
 }
