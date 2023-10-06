@@ -1,15 +1,17 @@
 package com.teamtwo.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.Objects;
 
-@NoArgsConstructor
-@Data public abstract class AbstractEntry {
+public abstract class AbstractEntry {
 
     protected int id;
     protected String title, descr;
     protected LocalDate date;
+
+    public AbstractEntry() {
+
+    }
 
     /**
      * This constructor is used by subclasses to construct instances with a provided id, title, and descr. The date is initialized to the current date of the creation of the object.
@@ -41,6 +43,38 @@ import java.time.LocalDate;
         this.id = id;
         this.title = title;
         this.descr = descr;
+        this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }

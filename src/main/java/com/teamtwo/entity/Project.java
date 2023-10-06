@@ -1,12 +1,9 @@
 package com.teamtwo.entity;
 
-import lombok.Getter;
-
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
 public class Project extends AbstractEntry {
 
     /**
@@ -33,5 +30,9 @@ public class Project extends AbstractEntry {
     public Project(int id, String title, String descr, LocalDate date) {
         super(id, title, descr, date);
         tickets = new HashMap<>();
+    }
+
+    public Map<Integer, Ticket> getTickets() {
+        return tickets;
     }
 }

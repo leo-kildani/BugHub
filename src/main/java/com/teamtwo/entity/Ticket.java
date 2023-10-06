@@ -1,13 +1,8 @@
 package com.teamtwo.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
-@Setter
 public class Ticket extends AbstractEntry{
 
     /**
@@ -37,5 +32,17 @@ public class Ticket extends AbstractEntry{
         super(id, title, descr);
         this.projectId = projectId;
         comments = new HashMap<>();
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
+    public Map<Integer, Comment> getComments() {
+        return comments;
     }
 }

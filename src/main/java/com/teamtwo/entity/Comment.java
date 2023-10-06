@@ -1,10 +1,5 @@
 package com.teamtwo.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class Comment extends AbstractEntry {
 
     /**
@@ -29,6 +24,14 @@ public class Comment extends AbstractEntry {
      */
     public Comment(int id, String title, String descr, int ticketId) {
         super(id, title, descr);
+        this.ticketId = ticketId;
+    }
+
+    public int getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(int ticketId) {
         this.ticketId = ticketId;
     }
 }
