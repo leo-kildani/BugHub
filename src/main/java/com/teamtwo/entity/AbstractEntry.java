@@ -77,4 +77,17 @@ public abstract class AbstractEntry {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractEntry)) return false;
+        AbstractEntry that = (AbstractEntry) o;
+        return id == that.id && Objects.equals(title, that.title) && Objects.equals(descr, that.descr) && Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, descr, date);
+    }
 }

@@ -2,10 +2,6 @@ package com.teamtwo.userInterface;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.io.IOException;
 import java.util.Objects;
 
 public class MainMenu extends Parent {
