@@ -1,5 +1,7 @@
-package controllers;
+package com.teamtwo.controllers;
 
+import com.teamtwo.access.BugHubDataAccess;
+import com.teamtwo.access.BugHubDataAccessFileImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
@@ -15,11 +17,12 @@ public class ProjectsPageController
     @FXML
     private TextArea descriptionArea;
 
+    private BugHubDataAccess dao = new BugHubDataAccessFileImpl();
+
     public void clear(ActionEvent e)
     {
         projectNameField.clear();
         startingDate.setValue(null);
         descriptionArea.clear();
-
     }
 }

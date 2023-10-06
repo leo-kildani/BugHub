@@ -1,4 +1,4 @@
-package userInterface;
+package com.teamtwo.userInterface;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

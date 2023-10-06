@@ -1,16 +1,10 @@
 package com.teamtwo.application;
 
+import com.teamtwo.userInterface.ProjectPage;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import userInterface.MainMenu;
-import userInterface.ProjectPage;
-
-import java.util.Objects;
+import com.teamtwo.userInterface.MainMenu;
 
 public class Main extends Application {
 
