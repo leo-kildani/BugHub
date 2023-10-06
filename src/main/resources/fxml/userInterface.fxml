@@ -59,14 +59,14 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Text>
-      <DatePicker fx:id="startingDate" layoutX="226.0" layoutY="184.0" prefHeight="25.0" prefWidth="149.0" promptText="09/15/23" />
-      <TextField fx:id="projectNameField" layoutX="229.0" layoutY="132.0" promptText="Project Name" />
+      <DatePicker layoutX="226.0" layoutY="184.0" prefHeight="25.0" prefWidth="149.0" promptText="09/15/23" />
+      <TextField layoutX="229.0" layoutY="132.0" promptText="Project Name" />
       <Text fill="WHITE" layoutX="253.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" textAlignment="CENTER" wrappingWidth="94.00000432133675">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Text>
-      <TextArea fx:id="descriptionArea" layoutX="103.0" layoutY="236.0" prefHeight="74.0" prefWidth="410.0" promptText="Project Description . . ." />
+      <TextArea layoutX="103.0" layoutY="236.0" prefHeight="74.0" prefWidth="410.0" promptText="Project Description . . ." />
       <Button layoutX="56.0" layoutY="343.0" mnemonicParsing="false" onAction="#clear" text="Clear All" />
       <Button layoutX="446.0" layoutY="343.0" mnemonicParsing="false" text="Save" />
       <Button layoutX="498.0" layoutY="343.0" mnemonicParsing="false" text="Cancel" />
