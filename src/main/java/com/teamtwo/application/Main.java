@@ -18,9 +18,10 @@ public class Main extends Application {
     // This method runs javafx application
     @Override
     public void start(Stage mainStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/Main.fxml")));
+        ClassLoader classLoader = getClass().getClassLoader();
+        Parent root = FXMLLoader.load(Objects.requireNonNull(classLoader.getResource("fxml/Main.fxml")));
         Scene mainScene = new Scene(root);
-        String mainPageCss = this.getClass().getResource("application.css").toExternalForm();
+        String mainPageCss = Objects.requireNonNull(classLoader.getResource("css/application.css")).toExternalForm();
         mainScene.getStylesheets().add(mainPageCss);
         mainStage.setScene(mainScene);
         mainStage.show();
