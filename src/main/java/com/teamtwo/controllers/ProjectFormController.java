@@ -55,8 +55,7 @@ public class ProjectFormController
     }
 
     public void cancelForm(ActionEvent e) {
-        Scene scene = new Scene(mainMenu);
-        Stage stage = (Stage) ((Node)e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
+        Scene scene = ((Node)e.getSource()).getScene();
+        scene.setRoot(mainMenu);
     }
 }

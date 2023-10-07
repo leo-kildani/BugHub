@@ -2,6 +2,7 @@ package com.teamtwo.application;
 
 import com.teamtwo.access.BugHubDataAccess;
 import com.teamtwo.access.BugHubDataAccessFileImpl;
+import com.teamtwo.controllers.MainPageController;
 import com.teamtwo.controllers.ProjectFormController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +39,10 @@ public class Main extends Application {
         mainMenu = (Parent) mainMenuLoader.load();
         projectForm = (Parent) projectFormLoader.load();
 
+        MainPageController mainPageController = mainMenuLoader.getController();
+        mainPageController.loadDao(dao);
+        mainPageController.loadPages(projectForm);
+
         ProjectFormController projectFormController = projectFormLoader.getController();
         projectFormController.loadDao(dao);
         projectFormController.loadPages(mainMenu);
@@ -49,6 +54,8 @@ public class Main extends Application {
         Scene mainScene = new Scene(mainMenu);
         mainScene.getStylesheets().add(mainMenuCss);
         mainStage.setScene(mainScene);
+        mainStage.setWidth(700);
+        mainStage.setHeight(500);
         mainStage.setResizable(false);
         mainStage.show();
     }
