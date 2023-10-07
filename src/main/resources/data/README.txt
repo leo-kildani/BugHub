@@ -1,0 +1,1 @@
+This directory may be empty on project initialization. It is used to store the JSON file containing the application's data
