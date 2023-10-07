@@ -34,7 +34,7 @@ public class Main extends Application {
         mainMenuLoader = new FXMLLoader(classLoader.getResource("fxml/Main.fxml"));
         projectFormLoader = new FXMLLoader(classLoader.getResource("fxml/ProjectForm.fxml"));
 
-        mainMenuCss = Objects.requireNonNull(classLoader.getResource("css/application.css")).toExternalForm();
+        mainMenuCss = classLoader.getResource("css/application.css").toExternalForm();
 
         mainMenu = (Parent) mainMenuLoader.load();
         projectForm = (Parent) projectFormLoader.load();
