@@ -19,13 +19,23 @@ import javafx.stage.Stage;
 public class MainPageController {
 	
 	private Stage stage;
-	private Scene scene;
 	private Parent root;
 	
+	private BugHubDataAccess dao;
+	private Parent projectPage;
+	
+	public void loadDao(BugHubDataAccess dao) {
+		this.dao = dao;
+	}
+	
+	public void loadPages(Parent projectForm) {
+		this.projectPage = projectForm;
+	}
+	
 	public void switchToProj(ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/fxml/userInterface.fxml"));
+		projectPage = FXMLLoader.load(getClass().getResource("/fxml/userInterface.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
+		Scene scene = new Scene(projectPage);
 		stage.setScene(scene);
 		stage.show();
 	}
