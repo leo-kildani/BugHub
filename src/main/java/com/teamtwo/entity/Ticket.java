@@ -13,7 +13,7 @@ public class Ticket extends AbstractEntry{
     /**
      * A map of comments associated with this ticket, stored using their ids. Initialized as an empty HashMap.
      */
-    private final Map<Integer, Comment> comments;
+    private Map<Integer, Comment> comments;
 
     public Ticket() {
         super();
@@ -44,5 +44,9 @@ public class Ticket extends AbstractEntry{
 
     public Map<Integer, Comment> getComments() {
         return comments;
+    }
+
+    public void setComments(Map<Integer, Comment> comments) {
+        this.comments = comments;
     }
 }
