@@ -9,7 +9,7 @@ public class Project extends AbstractEntry {
     /**
      * A map of tickets associated with this project, stored using their ids. Initialized as a new HashMap.
      */
-    private final Map<Integer, Ticket> tickets;
+    private Map<Integer, Ticket> tickets;
 
     /**
      * Default Constructor
@@ -34,5 +34,9 @@ public class Project extends AbstractEntry {
 
     public Map<Integer, Ticket> getTickets() {
         return tickets;
+    }
+
+    public void setTickets(Map<Integer, Ticket> tickets) {
+        this.tickets = tickets;
     }
 }
