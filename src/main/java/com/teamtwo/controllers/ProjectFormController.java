@@ -24,10 +24,19 @@ public class ProjectFormController
     private DatePicker startingDate;
     @FXML
     private TextArea descriptionArea;
+    
+    @FXML
+    private LocalDate todaysDate;
 
     private BugHubDataAccess dao;
 
     private Parent mainMenu;
+    
+    @FXML
+    public void initialize() {
+        todaysDate = LocalDate.now();
+        startingDate.setValue(todaysDate);    
+    }
 
     public void loadDao(BugHubDataAccess dao) {
         this.dao = dao;
