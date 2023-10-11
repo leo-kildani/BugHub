@@ -48,7 +48,7 @@
          <Font name="Arial Bold" size="30.0" />
       </font>
    </Text>
-   <Button layoutX="329.0" layoutY="288.0" mnemonicParsing="false" onAction="#switchToProj" prefHeight="36.0" prefWidth="110.0" style="-fx-background-color: #afb4b9;" text="Get started">
+   <Button layoutX="329.0" layoutY="288.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="131.0" style="-fx-background-color: #afb4b9;" text="View Projects">
       <font>
          <Font name="Arial Bold" size="14.0" />
       </font>
