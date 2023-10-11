@@ -9,9 +9,7 @@ import com.teamtwo.entity.Comment;
 import com.teamtwo.entity.Project;
 import com.teamtwo.entity.Ticket;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class BugHubDataAccessFileImpl implements BugHubDataAccess {
 
@@ -33,6 +31,11 @@ public class BugHubDataAccessFileImpl implements BugHubDataAccess {
         this.mapper = new ObjectMapper();
         this.mapper.registerModule(new JavaTimeModule());
         this.projectMap = load();
+    }
+
+    @Override
+    public List<Project> getProjects() {
+        return new ArrayList<>(projectMap.values());
     }
 
     @Override
