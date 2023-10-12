@@ -45,7 +45,7 @@ public class BugHubDataAccessFileImpl implements BugHubDataAccess {
 
     @Override
     public boolean deleteProject(int projectId) {
-        return Objects.nonNull(projectMap.get(projectId));
+        return Objects.nonNull(projectMap.remove(projectId));
     }
 
     @Override
