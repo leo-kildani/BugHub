@@ -4,6 +4,7 @@ import com.teamtwo.entity.Comment;
 import com.teamtwo.entity.Project;
 import com.teamtwo.entity.Ticket;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BugHubDataAccess {
@@ -92,5 +93,5 @@ public interface BugHubDataAccess {
     /**
      * Used to close any access to stored data. Either closing a file source or closing a database connection.
      */
-    public void close();
+    public void close() throws Exception;
 }
