@@ -4,7 +4,16 @@ import com.teamtwo.entity.Comment;
 import com.teamtwo.entity.Project;
 import com.teamtwo.entity.Ticket;
 
+import java.util.List;
+
 public interface BugHubDataAccess {
+
+    /**
+     * Returns a list of all the saved projects in a database.
+     *
+     * @return a list of all saved projects
+     */
+    public List<Project> getProjects();
 
     /**
      * Add a project to database.
