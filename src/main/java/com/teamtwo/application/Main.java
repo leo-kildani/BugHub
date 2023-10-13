@@ -14,7 +14,11 @@ public class Main extends Application {
     private BugHubDataModel model;
 
     public static void main(String[] args) {
-        launch(args);
+        try {
+            launch(args);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
     
     @Override
@@ -34,7 +38,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void stop() {
+    public void stop() throws Exception {
         dao.close();
     }
 }

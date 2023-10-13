@@ -46,7 +46,7 @@ public class BugHubDataModel {
                 loader = new FXMLLoader(classLoader.getResource(relativePathToFXML));
                 node = loader.load();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new ExceptionInInitializerError(e);
             }
         }
     }

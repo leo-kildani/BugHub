@@ -84,12 +84,8 @@ public class BugHubDataAccessFileImpl implements BugHubDataAccess {
     }
 
     @Override
-    public void close() {
-        try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(DATA_FILE_PATH), projectMap);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void close() throws IOException {
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(DATA_FILE_PATH), projectMap);
     }
 
     private Map<Integer, Project> load() {
