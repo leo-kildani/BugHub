@@ -1,23 +1,22 @@
 package com.teamtwo.controllers;
 
-import com.teamtwo.access.BugHubDataAccess;
 import com.teamtwo.entity.Project;
+import com.teamtwo.data_model.BugHubDataModel;
 import com.teamtwo.util.IdGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class ProjectFormController
-{
+public class ProjectFormController implements BugHubController{
     @FXML
     private TextField projectNameField;
     @FXML
@@ -28,22 +27,16 @@ public class ProjectFormController
     @FXML
     private LocalDate todaysDate;
 
-    private BugHubDataAccess dao;
-
-    private Parent mainMenu;
+    private BugHubDataModel model;
     
     @FXML
     public void initialize() {
         todaysDate = LocalDate.now();
-        startingDate.setValue(todaysDate);    
+        startingDate.setValue(todaysDate);
     }
 
-    public void loadDao(BugHubDataAccess dao) {
-        this.dao = dao;
-    }
-
-    public void loadPages(Parent mainMenu) {
-        this.mainMenu = mainMenu;
+    public void loadModel(BugHubDataModel model) {
+        this.model = model;
     }
 
     public void clearForm(ActionEvent e) {
@@ -54,17 +47,26 @@ public class ProjectFormController
 
     public void saveForm(ActionEvent e) {
         int id = IdGenerator.generateId();
-        while (Objects.nonNull(dao.getProject(id)))
+        while (Objects.nonNull(model.getDao().getProject(id)))
             id = IdGenerator.generateId();
         String projectName = projectNameField.getText();
         String projectDescription = descriptionArea.getText();
         LocalDate startDate = startingDate.getValue();
-        dao.addProject(new Project(id, projectName, projectDescription, startDate));
+
+        Project p = new Project(id, projectName, projectDescription, startDate);
+
+        model.getDao().addProject(p);
+
+        model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class)
+                .getProjectTable()
+                .getItems()
+                .add(p);
+
         clearForm(e);
     }
 
-    public void cancelForm(ActionEvent e) {
+    public void cancelForm(ActionEvent e) throws IOException {
         Scene scene = ((Node)e.getSource()).getScene();
-        scene.setRoot(mainMenu);
+        scene.setRoot(model.getNode("MAIN_MENU"));
     }
 }
