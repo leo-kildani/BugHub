@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -45,6 +46,10 @@ public class ProjectFormController implements BugHubController{
         descriptionArea.clear();
     }
 
+    /*
+     * This method will save all the contents given by the user for the project they want to save.
+     * If there is a missing name or description, the user will be prompted to fill in those fields.
+     */
     public void saveForm(ActionEvent e) {
         int id = IdGenerator.generateId();
         while (Objects.nonNull(model.getDao().getProject(id)))
@@ -52,17 +57,27 @@ public class ProjectFormController implements BugHubController{
         String projectName = projectNameField.getText();
         String projectDescription = descriptionArea.getText();
         LocalDate startDate = startingDate.getValue();
+        
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Error");
+        alert.setHeaderText("Missing Credentials");
+        alert.setContentText("Do not leave any textfields empty before saving");
+        
+        if(projectName.isEmpty() || projectDescription.isEmpty()) {
+        	alert.showAndWait();
+        }else
+        {
+            Project p = new Project(id, projectName, projectDescription, startDate);
 
-        Project p = new Project(id, projectName, projectDescription, startDate);
+            model.getDao().addProject(p);
 
-        model.getDao().addProject(p);
+            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class)
+                    .getProjectTable()
+                    .getItems()
+                    .add(p);
 
-        model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class)
-                .getProjectTable()
-                .getItems()
-                .add(p);
-
-        clearForm(e);
+            clearForm(e);
+        }
     }
 
     public void cancelForm(ActionEvent e) throws IOException {
