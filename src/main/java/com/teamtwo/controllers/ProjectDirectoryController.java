@@ -5,18 +5,25 @@ import com.teamtwo.data_model.BugHubDataModel;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
 
-public class ProjectDirectoryController implements BugHubController{
+public class ProjectDirectoryController implements Initializable, BugHubController{
 
     @FXML
     private TableView<Project> projectTable;
@@ -34,6 +41,20 @@ public class ProjectDirectoryController implements BugHubController{
     private TableColumn<Project, Integer> projectTicketCount;
 
     private BugHubDataModel model;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        projectTable.setRowFactory(projTable -> {
+            final TableRow<Project> row = new TableRow<>();
+            row.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+                final int index = row.getIndex();
+                if (index >= 0 && index < projectTable.getItems().size() && projectTable.getSelectionModel().isSelected(index)) {
+                    projectTable.getSelectionModel().clearSelection();
+                    mouseEvent.consume();
+                }
+            });
+            return row;
+        });
+    }
 
     public void loadModel(BugHubDataModel model) {
         this.model = model;
@@ -61,12 +82,15 @@ public class ProjectDirectoryController implements BugHubController{
     @FXML
     public void deleteProject(ActionEvent event) {
         Project project = projectTable.getSelectionModel().getSelectedItem();
-        model.getDao().deleteProject(project.getId());
-        projectTable.getItems().remove(project);
+        if (project != null) {
+            model.getDao().deleteProject(project.getId());
+            projectTable.getItems().remove(project);
+        }
     }
 
     public TableView<Project> getProjectTable() {
         return projectTable;
     }
+
 }
 
