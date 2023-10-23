@@ -65,8 +65,7 @@ public class ProjectFormController implements BugHubController{
         
         if(projectName.isEmpty() || projectDescription.isEmpty()) {
         	alert.showAndWait();
-        }else
-        {
+        } else {
             Project p = new Project(id, projectName, projectDescription, startDate);
 
             model.getDao().addProject(p);
