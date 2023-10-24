@@ -36,7 +36,8 @@ public class BugHubDataModel {
     private enum MODEL{
         MAIN_MENU("fxml/Main.fxml"),
         PROJECT_DIRECTORY("fxml/ProjectDirectory.fxml"),
-        PROJECT_FORM("fxml/ProjectForm.fxml");
+        PROJECT_FORM("fxml/ProjectForm.fxml"),
+        PROJECT_PROFILE("fxml/ProjectProfile.fxml");
 
         public final FXMLLoader loader;
         public final Parent node;

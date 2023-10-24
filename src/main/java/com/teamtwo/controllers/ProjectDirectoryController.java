@@ -88,6 +88,16 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
         }
     }
 
+    @FXML
+    public void openProject(ActionEvent event) {
+        Project project = projectTable.getSelectionModel().getSelectedItem();
+        if (project != null) {
+            model.getController("PROJECT_PROFILE", ProjectProfileController.class).setProject(project);
+            Scene scene = ((Node) event.getSource()).getScene();
+            scene.setRoot(model.getNode("PROJECT_PROFILE"));
+        }
+    }
+
     public TableView<Project> getProjectTable() {
         return projectTable;
     }
