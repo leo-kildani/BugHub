@@ -18,7 +18,7 @@
          <Font name="Arial Bold" size="30.0" />
       </font>
    </Text>
-   <Button layoutX="404.0" layoutY="20.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Create Project">
+   <Button layoutX="404.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToProjectForm" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Create Project">
       <font>
          <Font name="Arial Bold" size="14.0" />
       </font>
@@ -57,4 +57,5 @@
    </Label>
    <Button fx:id="deleteTicketButton" layoutX="255.0" layoutY="415.0" mnemonicParsing="false" text="Delete" />
    <Button fx:id="openTicketButton" layoutX="94.0" layoutY="415.0" mnemonicParsing="false" text="Open" />
+   <Button fx:id="deleteTicketButton1" layoutX="498.0" layoutY="415.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Return to Main Menu" />
 </AnchorPane>
