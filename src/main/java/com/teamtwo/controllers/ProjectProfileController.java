@@ -2,15 +2,22 @@ package com.teamtwo.controllers;
 
 import com.teamtwo.data_model.BugHubDataModel;
 import com.teamtwo.entity.Project;
+import com.teamtwo.entity.Ticket;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +41,10 @@ public class ProjectProfileController implements BugHubController, Initializable
 
     @FXML
     private Label savingDescrHelpLabel;
+
+    @FXML
+    private ListView<GridPane> ticketList;
+
     private Project project;
 
     private BugHubDataModel model;
@@ -44,6 +55,7 @@ public class ProjectProfileController implements BugHubController, Initializable
             if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
                 savingDescrHelpLabel.setVisible(true);
                 projectDescr.setEditable(true);
+                mouseEvent.consume();
             }
         });
         projectDescr.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
@@ -52,6 +64,14 @@ public class ProjectProfileController implements BugHubController, Initializable
                 projectDescr.setEditable(false);
                 characterCount.setText(projectDescr.getText().length() + "/256");
                 project.setDescr(projectDescr.getText());
+                mouseEvent.consume();
+            }
+        });
+        ticketList.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+            GridPane selectedCell = ticketList.getSelectionModel().getSelectedItem();
+            if (selectedCell != null) {
+                ticketList.getSelectionModel().clearSelection();
+                mouseEvent.consume();
             }
         });
     }
@@ -78,9 +98,47 @@ public class ProjectProfileController implements BugHubController, Initializable
         this.projectDate.setText("Date Created: " + project.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
         this.projectDescr.setText(project.getDescr());
         this.characterCount.setText(project.getDescr().length() + "/256");
+
+        for (Ticket t: project.getTickets().values()) {
+            ticketList.getItems().add(createTicketListCell(t));
+        }
     }
 
     public Project getProject() {
         return project;
+    }
+
+    private GridPane createTicketListCell(Ticket ticket) {
+        GridPane listCell = new GridPane();
+        listCell.setMaxSize(ticketList.getPrefWidth(), Math.floor(ticketList.getPrefHeight() / 3));
+        listCell.setPadding(new Insets(0, 15, 0, 0));
+
+        // set cell constraints
+        ColumnConstraints colConstraint = new ColumnConstraints();
+        colConstraint.setPercentWidth(100);
+        RowConstraints regData = new RowConstraints();
+        regData.setVgrow(Priority.NEVER);
+        regData.setValignment(VPos.CENTER);
+        RowConstraints heavyData = new RowConstraints();
+        heavyData.setVgrow(Priority.ALWAYS);
+        heavyData.setValignment(VPos.CENTER);
+        RowConstraints hiddenData = new RowConstraints(0);
+
+        listCell.getColumnConstraints().add(colConstraint);
+        listCell.getRowConstraints().addAll(hiddenData, regData, heavyData, regData);
+
+        // make/add labels in order
+        Label ticketId = new Label(String.valueOf(ticket.getId()));
+        ticketId.setVisible(false);
+        listCell.add(ticketId, 0, 0);
+        Label ticketTitle = new Label(ticket.getTitle());
+        listCell.add(ticketTitle, 0, 1);
+        Label ticketDescr = new Label(ticket.getDescr());
+        listCell.add(ticketDescr, 0, 2);
+        Label ticketDate = new Label(ticket.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        GridPane.setHalignment(ticketDate, HPos.RIGHT);
+        listCell.add(ticketDate, 0, 3);
+
+        return listCell;
     }
 }

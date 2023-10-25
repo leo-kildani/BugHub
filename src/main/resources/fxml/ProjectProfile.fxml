@@ -50,7 +50,7 @@
          <Font name="Arial Bold" size="11.0" />
       </font>
    </Label>
-   <ListView layoutX="75.0" layoutY="150.0" prefHeight="250.0" prefWidth="275.0" />
+   <ListView fx:id="ticketList" layoutX="75.0" layoutY="150.0" prefHeight="250.0" prefWidth="275.0" />
    <Label layoutX="163.0" layoutY="121.0" text="Ticket Feed">
       <font>
          <Font name="Arial Bold" size="18.0" />
