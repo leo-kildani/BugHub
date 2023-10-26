@@ -110,6 +110,7 @@ public class ProjectProfileController implements BugHubController, Initializable
         this.projectDescr.setText(project.getDescr());
         this.characterCount.setText(project.getDescr().length() + "/256");
 
+        this.ticketList.getItems().clear();
         for (Ticket t: project.getTickets().values()) {
             ticketList.getItems().add(createTicketListCell(t));
         }

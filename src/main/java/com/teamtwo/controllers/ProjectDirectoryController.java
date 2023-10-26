@@ -5,7 +5,6 @@ import com.teamtwo.data_model.BugHubDataModel;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -16,7 +15,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -93,7 +91,7 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
     }
 
     @FXML
-    public void openProject(ActionEvent event) {
+    public void openProjectProfile(ActionEvent event) {
         Project project = projectTable.getSelectionModel().getSelectedItem();
         if (project != null) {
             ProjectProfileController controller = model.getController("PROJECT_PROFILE", ProjectProfileController.class);
