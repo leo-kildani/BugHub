@@ -11,10 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -46,6 +43,8 @@ public class ProjectProfileController implements BugHubController, Initializable
     private ListView<GridPane> ticketList;
 
     private Project project;
+
+    private int projectIdx;
 
     private BugHubDataModel model;
 
@@ -87,9 +86,21 @@ public class ProjectProfileController implements BugHubController, Initializable
         scene.setRoot(model.getNode("MAIN_MENU"));
     }
 
+    @FXML
     public void switchToProjectForm(ActionEvent event) throws IOException {
         Scene scene = ((Node) event.getSource()).getScene();
         scene.setRoot(model.getNode("PROJECT_FORM"));
+    }
+
+    @FXML
+    public void deleteTicket() {
+        GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
+        if (ticketCell != null) {
+            Label ticketId = (Label) ticketCell.getChildren().get(0);
+            project.getTickets().remove(Integer.valueOf(ticketId.getText()));
+            ticketList.getItems().remove(ticketCell);
+            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project, projectIdx);
+        }
     }
 
     public void setProject(Project project) {
@@ -104,8 +115,8 @@ public class ProjectProfileController implements BugHubController, Initializable
         }
     }
 
-    public Project getProject() {
-        return project;
+    public void setProjectIdx(int idx) {
+        this.projectIdx = idx;
     }
 
     private GridPane createTicketListCell(Ticket ticket) {

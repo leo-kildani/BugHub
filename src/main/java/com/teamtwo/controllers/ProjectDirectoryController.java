@@ -54,17 +54,21 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
             });
             return row;
         });
-    }
-
-    public void loadModel(BugHubDataModel model) {
-        this.model = model;
         this.projectId.setCellValueFactory(new PropertyValueFactory<>("id"));
         this.projectTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         this.projectDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         this.projectTicketCount.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getTickets().size()).asObject());
+    }
+
+    public void loadModel(BugHubDataModel model) {
+        this.model = model;
 
         this.projectTable.setItems(FXCollections.observableList(this.model.getDao().getProjects()));
         this.projectTable.setPlaceholder(new Label("Click Create Project to get started!"));
+    }
+
+    public void updateProjectCell(Project project, int projectIdx) {
+        projectTable.getItems().set(projectIdx, project);
     }
 
     @FXML
@@ -92,7 +96,9 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
     public void openProject(ActionEvent event) {
         Project project = projectTable.getSelectionModel().getSelectedItem();
         if (project != null) {
-            model.getController("PROJECT_PROFILE", ProjectProfileController.class).setProject(project);
+            ProjectProfileController controller = model.getController("PROJECT_PROFILE", ProjectProfileController.class);
+            controller.setProject(project);
+            controller.setProjectIdx(projectTable.getSelectionModel().getSelectedIndex());
             Scene scene = ((Node) event.getSource()).getScene();
             scene.setRoot(model.getNode("PROJECT_PROFILE"));
         }
