@@ -3,6 +3,7 @@ package com.teamtwo.controllers;
 import com.teamtwo.data_model.BugHubDataModel;
 import com.teamtwo.entity.Project;
 import com.teamtwo.entity.Ticket;
+import com.teamtwo.util.StringShortener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -145,7 +146,8 @@ public class ProjectProfileController implements BugHubController, Initializable
         listCell.add(ticketId, 0, 0);
         Label ticketTitle = new Label(ticket.getTitle());
         listCell.add(ticketTitle, 0, 1);
-        Label ticketDescr = new Label(ticket.getDescr());
+        Label ticketDescr = new Label(StringShortener.shortenString(ticket.getDescr(), 70));
+        ticketDescr.setWrapText(true);
         listCell.add(ticketDescr, 0, 2);
         Label ticketDate = new Label(ticket.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
         GridPane.setHalignment(ticketDate, HPos.RIGHT);
