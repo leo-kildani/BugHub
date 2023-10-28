@@ -111,7 +111,7 @@ public class ProjectProfileController implements BugHubController, Initializable
         GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
         if (ticketCell != null) {
             Label ticketId = (Label) ticketCell.getChildren().get(0);
-            project.getTickets().remove(Integer.valueOf(ticketId.getText()));
+            model.getDao().deleteTicket(project, Integer.parseInt(ticketId.getText()));
             ticketList.getItems().remove(ticketCell);
             model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project, projectIdx);
         }

@@ -26,7 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 
-public class TicketInfoController implements BugHubController{
+public class TicketInfoController implements BugHubController, Initializable {
 	
 	@FXML
 	private Label ticketTitle;
@@ -105,5 +105,16 @@ public class TicketInfoController implements BugHubController{
 		cell.add(commentDate, 0, 0);
 		
 		return cell;
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		commentList.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+			GridPane selectedCell = commentList.getSelectionModel().getSelectedItem();
+			if (selectedCell != null) {
+				commentList.getSelectionModel().clearSelection();
+				mouseEvent.consume();
+			}
+		});
 	}
 }

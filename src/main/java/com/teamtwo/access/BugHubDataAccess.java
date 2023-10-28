@@ -4,7 +4,6 @@ import com.teamtwo.entity.Comment;
 import com.teamtwo.entity.Project;
 import com.teamtwo.entity.Ticket;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface BugHubDataAccess {
@@ -26,9 +25,8 @@ public interface BugHubDataAccess {
      * Delete a project from database given a project id.
      *
      * @param projectId id of project to be deleted
-     * @return true if project was found and deleted; false otherwise
      */
-    public boolean deleteProject(int projectId);
+    public void deleteProject(int projectId);
 
     /**
      * Retrieve a project given a project id.
@@ -49,11 +47,10 @@ public interface BugHubDataAccess {
     /**
      * Remove a ticket from a specified project given the ticket id.
      *
-     * @param project project to remove ticket from
+     * @param project  project to remove ticket from
      * @param ticketId id of ticket to be removed
-     * @return true if ticket was found with given id; false otherwise
      */
-    public boolean removeTicket(Project project, int ticketId);
+    public void deleteTicket(Project project, int ticketId);
 
     /**
      * Retrieve a ticket from a specified project given the ticket id.
@@ -79,7 +76,7 @@ public interface BugHubDataAccess {
      * @param commentId id of comment to be removed
      * @return true comment was found with given id; false otherwise
      */
-    public boolean removeComment(Ticket ticket, int commentId);
+    public boolean deleteComment(Ticket ticket, int commentId);
 
     /**
      * Retrieve a comment from a specified ticket
