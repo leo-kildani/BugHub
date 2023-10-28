@@ -4,6 +4,7 @@ import com.teamtwo.data_model.BugHubDataModel;
 import com.teamtwo.entity.Comment;
 import com.teamtwo.entity.Project;
 import com.teamtwo.entity.Ticket;
+import com.teamtwo.util.IdGenerator;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -22,8 +23,10 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class TicketInfoController implements BugHubController, Initializable {
@@ -44,6 +47,21 @@ public class TicketInfoController implements BugHubController, Initializable {
 	
 	@FXML
 	private ListView<GridPane> commentList;
+	
+	@FXML
+	private LocalDate todaysDate;
+	
+	@FXML
+	private DatePicker startingDate;
+	
+	@FXML
+	private LocalTime time;
+	
+    @FXML
+    private TextArea descriptionArea;
+    
+    @FXML
+    private TextField commentNameField;
 	
 	private BugHubDataModel model;
 	
@@ -73,6 +91,41 @@ public class TicketInfoController implements BugHubController, Initializable {
 		for(Comment c : ticket.getComments().values()) {
 			commentList.getItems().add(createCommentListCell(c));
 		}
+	}
+	
+    public void clearForm(ActionEvent e) {
+        commentNameField.clear();
+        startingDate.setValue(null);
+        descriptionArea.clear();
+    }
+	
+	public void saveComment(ActionEvent e) {
+        int id = IdGenerator.generateId();
+        while (Objects.nonNull(model.getDao().getComment(this.ticket, id)))
+            id = IdGenerator.generateId();
+        String commentName = commentNameField.getText();
+        String commentDescription = descriptionArea.getText();
+        LocalDate startDate = startingDate.getValue();
+        
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Error");
+        alert.setHeaderText("Missing Credentials");
+        alert.setContentText("Do not leave any textfields empty before saving");
+        
+        if(commentName.isEmpty() || commentDescription.isEmpty()) {
+        	alert.showAndWait();
+        } else {
+            Project p = new Project(id, commentName, commentDescription, startDate);
+
+            model.getDao().addProject(p);
+
+            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class)
+                    .getProjectTable()
+                    .getItems()
+                    .add(p);
+
+            clearForm(e);
+        }
 	}
 	
 	private GridPane createCommentListCell(Comment comment) {
@@ -116,5 +169,9 @@ public class TicketInfoController implements BugHubController, Initializable {
 				mouseEvent.consume();
 			}
 		});
+		
+		todaysDate = LocalDate.now();
+		startingDate.setValue(todaysDate);
+		time = LocalTime.now();
 	}
 }
