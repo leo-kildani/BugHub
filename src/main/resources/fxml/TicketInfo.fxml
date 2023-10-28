@@ -76,7 +76,7 @@
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="saveComment" layoutX="371.0" layoutY="410.0" mnemonicParsing="false" text="Save" />
+      <Button layoutX="371.0" layoutY="408.0" mnemonicParsing="false" onAction="#saveComment" text="Save" />
       <Label fx:id="ticketDate" layoutX="36.0" layoutY="80.0" text="Date Created">
          <font>
             <Font name="Arial Bold" size="11.0" />
@@ -93,12 +93,12 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Text>
-      <Text layoutX="424.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Starting Date" textAlignment="CENTER" wrappingWidth="151.13671875">
+      <Text layoutX="424.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Starting Date" textAlignment="CENTER" wrappingWidth="151.13671875">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Text>
       <DatePicker fx:id="startingDate" layoutX="425.0" layoutY="238.0" prefHeight="25.0" prefWidth="149.0" promptText="" />
-      <Button layoutX="583.0" layoutY="410.0" mnemonicParsing="false" onAction="#clearForm" text="Clear" />
+      <Button layoutX="583.0" layoutY="409.0" mnemonicParsing="false" onAction="#clearForm" text="Clear" />
    </children>
 </AnchorPane>

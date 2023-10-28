@@ -115,14 +115,9 @@ public class TicketInfoController implements BugHubController, Initializable {
         if(commentName.isEmpty() || commentDescription.isEmpty()) {
         	alert.showAndWait();
         } else {
-            Project p = new Project(id, commentName, commentDescription, startDate);
+            Comment c = new Comment(id, commentName, commentDescription, this.ticket.getId());
 
-            model.getDao().addProject(p);
-
-            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class)
-                    .getProjectTable()
-                    .getItems()
-                    .add(p);
+            model.getDao().addComment(this.ticket, c);
 
             clearForm(e);
         }
