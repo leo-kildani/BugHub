@@ -57,7 +57,7 @@
       </font>
    </Label>
    <Button layoutX="299.0" layoutY="415.0" mnemonicParsing="false" onAction="#deleteTicket" text="Delete" />
-   <Button layoutX="75.0" layoutY="415.0" mnemonicParsing="false" text="Open" />
+   <Button layoutX="75.0" layoutY="415.0" mnemonicParsing="false" onAction="#openTicket" text="Open" />
    <Button fx:id="mainMenuButton" layoutX="498.0" layoutY="415.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Return to Main Menu" />
    <TextArea fx:id="projectDescr" editable="false" layoutX="375.0" layoutY="219.0" prefHeight="90.0" prefWidth="250.0" wrapText="true">
       <font>

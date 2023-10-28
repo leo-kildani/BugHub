@@ -94,6 +94,19 @@ public class ProjectProfileController implements BugHubController, Initializable
     }
 
     @FXML
+    public void openTicket(ActionEvent event) {
+        GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
+        if (ticketCell != null) {
+            Label ticketId = (Label) ticketCell.getChildren().get(0);
+            Ticket ticket = project.getTickets().get(Integer.valueOf(ticketId.getText()));
+            TicketInfoController controller = model.getController("TICKET_INFO", TicketInfoController.class);
+            controller.setTicket(ticket);
+            Scene scene = ((Node) event.getSource()).getScene();
+            scene.setRoot(model.getNode("TICKET_INFO"));
+        }
+    }
+
+    @FXML
     public void deleteTicket() {
         GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
         if (ticketCell != null) {
