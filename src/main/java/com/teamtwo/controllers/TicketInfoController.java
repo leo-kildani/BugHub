@@ -118,7 +118,9 @@ public class TicketInfoController implements BugHubController, Initializable {
             Comment c = new Comment(id, commentName, commentDescription, this.ticket.getId());
 
             model.getDao().addComment(this.ticket, c);
-
+            
+            commentList.getItems().add(createCommentListCell(c));
+            
             clearForm(e);
         }
 	}
