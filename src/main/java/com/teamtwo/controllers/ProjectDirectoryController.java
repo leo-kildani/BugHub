@@ -10,6 +10,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -21,6 +25,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ProjectDirectoryController implements Initializable, BugHubController{
@@ -82,9 +87,26 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
     @FXML
     public void deleteProject(ActionEvent event) {
         Project project = projectTable.getSelectionModel().getSelectedItem();
+        
         if (project != null) {
-            model.getDao().deleteProject(project.getId());
-            projectTable.getItems().remove(project);
+            Alert confirmation = new Alert(AlertType.CONFIRMATION);
+            confirmation.setTitle("Delete Project");
+            confirmation.setHeaderText("Confirm Deletion");
+            confirmation.setContentText("Are you sure you want to delete this project?");
+            
+            // buttons
+            ButtonType confirmButton = new ButtonType("Yes");
+            ButtonType cancelButton = new ButtonType("No", ButtonData.CANCEL_CLOSE);
+            confirmation.getButtonTypes().setAll(confirmButton, cancelButton);
+            
+            // confirmation dialogue
+            Optional<ButtonType> result = confirmation.showAndWait();
+            
+            if (result.isPresent() && result.get() == confirmButton) {
+                // user confirm deletion
+                model.getDao().deleteProject(project.getId());
+                projectTable.getItems().remove(project);
+            }
         }
     }
 
