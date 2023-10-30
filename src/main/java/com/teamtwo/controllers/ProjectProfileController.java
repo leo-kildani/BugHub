@@ -45,8 +45,6 @@ public class ProjectProfileController extends AbstractBugHubController implement
 
     private Project project;
 
-    private int projectIdx;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         projectDescr.setOnMouseClicked(mouseEvent -> {
@@ -82,15 +80,13 @@ public class ProjectProfileController extends AbstractBugHubController implement
 
 
     @FXML
-    public void openTicket(ActionEvent event) {
+    public void openTicket(ActionEvent event) throws IOException {
         GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
         if (ticketCell != null) {
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             Ticket ticket = project.getTickets().get(Integer.valueOf(ticketId.getText()));
-            TicketProfileController controller = model.getController("TICKET_INFO", TicketProfileController.class);
-            controller.setTicket(ticket);
-            Scene scene = ((Node) event.getSource()).getScene();
-            scene.setRoot(model.getNode("TICKET_INFO"));
+            model.getController("TICKET_PROFILE", TicketProfileController.class).setTicket(ticket);
+            switchToTicketProfile(event);
         }
     }
 
@@ -101,7 +97,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             model.getDao().deleteTicket(project, Integer.parseInt(ticketId.getText()));
             ticketList.getItems().remove(ticketCell);
-            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project, projectIdx);
+            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project);
         }
     }
 
@@ -116,10 +112,6 @@ public class ProjectProfileController extends AbstractBugHubController implement
         for (Ticket t: project.getTickets().values()) {
             ticketList.getItems().add(createTicketListCell(t));
         }
-    }
-
-    public void setProjectIdx(int idx) {
-        this.projectIdx = idx;
     }
 
     private GridPane createTicketListCell(Ticket ticket) {

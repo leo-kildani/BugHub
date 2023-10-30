@@ -36,12 +36,18 @@ public abstract class AbstractBugHubController implements BugHubController {
     @FXML
     public void switchToTicketProfile(ActionEvent event) throws IOException {
         Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("TICKET_INFO"));
+        scene.setRoot(model.getNode("TICKET_PROFILE"));
     }
 
     @FXML
     public void switchToTicketForm(ActionEvent event) throws IOException {
         Scene scene = ((Node) event.getSource()).getScene();
         scene.setRoot(model.getNode("TICKET_FORM"));
+    }
+
+    @FXML
+    public void switchToProjectProfile(ActionEvent event) throws IOException {
+        Scene scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(model.getNode("PROJECT_PROFILE"));
     }
 }

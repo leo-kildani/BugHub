@@ -64,8 +64,12 @@ public class ProjectDirectoryController extends AbstractBugHubController impleme
         this.projectTable.setPlaceholder(new Label("Click Create Project to get started!"));
     }
 
-    public void updateProjectCell(Project project, int projectIdx) {
-        projectTable.getItems().set(projectIdx, project);
+    public void updateProjectCell(Project project) {
+        int idx = 0;
+        while (project.getId() != projectTable.getItems().get(idx).getId()) {
+            idx++;
+        }
+        projectTable.getItems().set(idx, project);
     }
 
     @FXML
@@ -78,14 +82,12 @@ public class ProjectDirectoryController extends AbstractBugHubController impleme
     }
 
     @FXML
-    public void openProjectProfile(ActionEvent event) {
+    public void openProjectProfile(ActionEvent event) throws IOException {
         Project project = projectTable.getSelectionModel().getSelectedItem();
         if (project != null) {
             ProjectProfileController controller = model.getController("PROJECT_PROFILE", ProjectProfileController.class);
             controller.setProject(project);
-            controller.setProjectIdx(projectTable.getSelectionModel().getSelectedIndex());
-            Scene scene = ((Node) event.getSource()).getScene();
-            scene.setRoot(model.getNode("PROJECT_PROFILE"));
+            switchToProjectProfile(event);
         }
     }
 

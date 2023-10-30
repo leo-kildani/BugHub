@@ -73,6 +73,8 @@ public class ProjectFormController extends AbstractBugHubController {
                     .getItems()
                     .add(p);
 
+            model.getController("TICKET_FORM", TicketFormController.class).updateProjectList();
+
             clearForm(e);
         }
     }
