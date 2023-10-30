@@ -99,7 +99,7 @@ public class ProjectProfileController implements BugHubController, Initializable
         if (ticketCell != null) {
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             Ticket ticket = project.getTickets().get(Integer.valueOf(ticketId.getText()));
-            TicketInfoController controller = model.getController("TICKET_INFO", TicketInfoController.class);
+            TicketProfileController controller = model.getController("TICKET_INFO", TicketProfileController.class);
             controller.setTicket(ticket);
             Scene scene = ((Node) event.getSource()).getScene();
             scene.setRoot(model.getNode("TICKET_INFO"));

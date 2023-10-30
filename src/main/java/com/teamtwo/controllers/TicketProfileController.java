@@ -2,14 +2,10 @@ package com.teamtwo.controllers;
 
 import com.teamtwo.data_model.BugHubDataModel;
 import com.teamtwo.entity.Comment;
-import com.teamtwo.entity.Project;
 import com.teamtwo.entity.Ticket;
 import com.teamtwo.util.IdGenerator;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.*;
@@ -18,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,7 +24,7 @@ import java.time.format.FormatStyle;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class TicketInfoController implements BugHubController, Initializable {
+public class TicketProfileController implements BugHubController, Initializable {
 	
 	@FXML
 	private Label ticketTitle;

@@ -65,7 +65,6 @@ public class TicketFormController implements BugHubController{
     }
 
     public void clearForm(ActionEvent e) {
-       
     	ticketNameField.clear();
         projectList.setValue(null);
         statusList.setValue(null);
@@ -95,23 +94,11 @@ public class TicketFormController implements BugHubController{
         
         if(project == null || ticketName.isEmpty() || ticketDescription.isEmpty()) {
         	alert.showAndWait();
-        } else
-        {
+        } else {
             Ticket ticket = new Ticket(id, ticketName, ticketDescription, project.getId());
-            
-
             model.getDao().addTicket(project, ticket);
-
-          //model.getController("TICKET_DIRECTORY", TicketDirectoryController.class)
-           //       .getProjectTable()
-            //       .getItems()
-            //       .add(ticket);
-            
             clearForm(e);
-            
-            
          }
-         
     }
 
     public void cancelForm(ActionEvent e) throws IOException {
