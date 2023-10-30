@@ -37,7 +37,8 @@ public class BugHubDataModel {
         MAIN_MENU("fxml/Main.fxml"),
         PROJECT_DIRECTORY("fxml/ProjectDirectory.fxml"),
         PROJECT_FORM("fxml/ProjectForm.fxml"),
-    	TICKET_INFO("fxml/TicketInfo.fxml"),
+        TICKET_FORM("fxml/TicketForm.fxml"),
+    	TICKET_PROFILE("fxml/TicketProfile.fxml"),
         PROJECT_PROFILE("fxml/ProjectProfile.fxml");
 
         public final FXMLLoader loader;

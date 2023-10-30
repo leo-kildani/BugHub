@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 
-public class ProjectProfileController implements BugHubController, Initializable {
+public class ProjectProfileController extends AbstractBugHubController implements Initializable {
 
     @FXML
     private Label projectTitle;
@@ -44,10 +44,6 @@ public class ProjectProfileController implements BugHubController, Initializable
     private ListView<GridPane> ticketList;
 
     private Project project;
-
-    private int projectIdx;
-
-    private BugHubDataModel model;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -81,28 +77,16 @@ public class ProjectProfileController implements BugHubController, Initializable
         this.model = model;
     }
 
-    @FXML
-    public void switchToMainMenu(ActionEvent event) throws IOException {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("MAIN_MENU"));
-    }
+
 
     @FXML
-    public void switchToProjectForm(ActionEvent event) throws IOException {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("PROJECT_FORM"));
-    }
-
-    @FXML
-    public void openTicket(ActionEvent event) {
+    public void openTicket(ActionEvent event) throws IOException {
         GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
         if (ticketCell != null) {
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             Ticket ticket = project.getTickets().get(Integer.valueOf(ticketId.getText()));
-            TicketInfoController controller = model.getController("TICKET_INFO", TicketInfoController.class);
-            controller.setTicket(ticket);
-            Scene scene = ((Node) event.getSource()).getScene();
-            scene.setRoot(model.getNode("TICKET_INFO"));
+            model.getController("TICKET_PROFILE", TicketProfileController.class).setTicket(ticket);
+            switchToTicketProfile(event);
         }
     }
 
@@ -113,7 +97,7 @@ public class ProjectProfileController implements BugHubController, Initializable
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             model.getDao().deleteTicket(project, Integer.parseInt(ticketId.getText()));
             ticketList.getItems().remove(ticketCell);
-            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project, projectIdx);
+            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project);
         }
     }
 
@@ -128,10 +112,6 @@ public class ProjectProfileController implements BugHubController, Initializable
         for (Ticket t: project.getTickets().values()) {
             ticketList.getItems().add(createTicketListCell(t));
         }
-    }
-
-    public void setProjectIdx(int idx) {
-        this.projectIdx = idx;
     }
 
     private GridPane createTicketListCell(Ticket ticket) {

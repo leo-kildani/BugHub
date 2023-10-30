@@ -26,7 +26,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ProjectDirectoryController implements Initializable, BugHubController{
+public class ProjectDirectoryController extends AbstractBugHubController implements Initializable {
 
     @FXML
     private TableView<Project> projectTable;
@@ -43,7 +43,6 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
     @FXML
     private TableColumn<Project, Integer> projectTicketCount;
 
-    private BugHubDataModel model;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         projectTable.setRowFactory(projTable -> {
@@ -70,20 +69,12 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
         this.projectTable.setPlaceholder(new Label("Click Create Project to get started!"));
     }
 
-    public void updateProjectCell(Project project, int projectIdx) {
-        projectTable.getItems().set(projectIdx, project);
-    }
-
-    @FXML
-    public void switchToProjectForm(ActionEvent event) throws IOException {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("PROJECT_FORM"));
-    }
-
-    @FXML
-    public void switchToMainMenu(ActionEvent event) throws IOException {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("MAIN_MENU"));
+    public void updateProjectCell(Project project) {
+        int idx = 0;
+        while (project.getId() != projectTable.getItems().get(idx).getId()) {
+            idx++;
+        }
+        projectTable.getItems().set(idx, project);
     }
 
     @FXML
@@ -113,14 +104,12 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
     }
 
     @FXML
-    public void openProjectProfile(ActionEvent event) {
+    public void openProjectProfile(ActionEvent event) throws IOException {
         Project project = projectTable.getSelectionModel().getSelectedItem();
         if (project != null) {
             ProjectProfileController controller = model.getController("PROJECT_PROFILE", ProjectProfileController.class);
             controller.setProject(project);
-            controller.setProjectIdx(projectTable.getSelectionModel().getSelectedIndex());
-            Scene scene = ((Node) event.getSource()).getScene();
-            scene.setRoot(model.getNode("PROJECT_PROFILE"));
+            switchToProjectProfile(event);
         }
     }
 

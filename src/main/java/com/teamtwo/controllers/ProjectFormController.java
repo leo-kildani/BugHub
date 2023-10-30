@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class ProjectFormController implements BugHubController{
+public class ProjectFormController extends AbstractBugHubController {
     @FXML
     private TextField projectNameField;
     @FXML
@@ -27,8 +27,6 @@ public class ProjectFormController implements BugHubController{
     
     @FXML
     private LocalDate todaysDate;
-
-    private BugHubDataModel model;
     
     private int nameCharLimit =64;
     private int descriptionCharLimit =256;
@@ -89,15 +87,9 @@ public class ProjectFormController implements BugHubController{
                     .getItems()
                     .add(p);
 
+            model.getController("TICKET_FORM", TicketFormController.class).updateProjectList();
+
             clearForm(e);
         }
-        
-    }
-
-    	
-
-    public void cancelForm(ActionEvent e) throws IOException {
-        Scene scene = ((Node)e.getSource()).getScene();
-        scene.setRoot(model.getNode("MAIN_MENU"));
     }
 }

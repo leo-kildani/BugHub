@@ -2,23 +2,19 @@ package com.teamtwo.controllers;
 
 import com.teamtwo.data_model.BugHubDataModel;
 import com.teamtwo.entity.Comment;
-import com.teamtwo.entity.Project;
 import com.teamtwo.entity.Ticket;
 import com.teamtwo.util.IdGenerator;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,7 +25,7 @@ import java.time.format.FormatStyle;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class TicketInfoController implements BugHubController, Initializable {
+public class TicketProfileController extends AbstractBugHubController implements Initializable {
 	
 	@FXML
 	private Label ticketTitle;
@@ -42,42 +38,20 @@ public class TicketInfoController implements BugHubController, Initializable {
 	
 	@FXML
 	private TextArea ticketDescr;
+
+	@FXML
+	private Label savingDescrHelpLabel;
 	
 	private Ticket ticket;
 	
 	@FXML
 	private ListView<GridPane> commentList;
-	
-	@FXML
-	private LocalDate todaysDate;
-	
-	@FXML
-	private DatePicker startingDate;
-	
-	@FXML
-	private LocalTime time;
-	
+
     @FXML
     private TextArea descriptionArea;
-    
-    @FXML
-    private TextField commentNameField;
-	
-	private BugHubDataModel model;
 	
 	public void loadModel(BugHubDataModel model) {
 		this.model = model;
-	}
-
-    @FXML
-    public void switchToMainMenu(ActionEvent event) throws IOException {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("MAIN_MENU"));
-    }
-	
-	public void switchToProjectForm(ActionEvent event) throws IOException {
-		Scene scene = ((Node) event.getSource()).getScene();
-		scene.setRoot(model.getNode("PROJECT_FORM"));
 	}
 	
 	public void setTicket(Ticket ticket) {
@@ -94,41 +68,43 @@ public class TicketInfoController implements BugHubController, Initializable {
 	}
 	
     public void clearForm(ActionEvent e) {
-        commentNameField.clear();
-        startingDate.setValue(null);
         descriptionArea.clear();
     }
+
+	public void deleteComment(ActionEvent e) {
+		GridPane commentCell = commentList.getSelectionModel().getSelectedItem();
+		if (commentCell != null) {
+			Label ticketId = (Label) commentCell.getChildren().get(0);
+			model.getDao().deleteComment(ticket, Integer.parseInt(ticketId.getText()));
+			commentList.getItems().remove(commentCell);
+		}
+	}
 	
 	public void saveComment(ActionEvent e) {
         int id = IdGenerator.generateId();
         while (Objects.nonNull(model.getDao().getComment(this.ticket, id)))
             id = IdGenerator.generateId();
-        String commentName = commentNameField.getText();
         String commentDescription = descriptionArea.getText();
-        LocalDate startDate = startingDate.getValue();
         
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Error");
         alert.setHeaderText("Missing Credentials");
         alert.setContentText("Do not leave any textfields empty before saving");
         
-        if(commentName.isEmpty() || commentDescription.isEmpty()) {
+        if(commentDescription.isEmpty()) {
         	alert.showAndWait();
         } else {
-            Comment c = new Comment(id, commentName, commentDescription, this.ticket.getId());
-
+            Comment c = new Comment(id, commentDescription, this.ticket.getId());
             model.getDao().addComment(this.ticket, c);
-            
             commentList.getItems().add(createCommentListCell(c));
-            
             clearForm(e);
         }
 	}
 	
 	private GridPane createCommentListCell(Comment comment) {
-		GridPane cell = new GridPane();
-		cell.setMaxSize(commentList.getPrefWidth(), Math.floor(commentList.getPrefHeight() / 3));
-		cell.setPadding(new Insets(0, 15, 0, 0));
+		GridPane listCell = new GridPane();
+		listCell.setMaxSize(commentList.getPrefWidth(), Math.floor(commentList.getPrefHeight() / 3));
+		listCell.setPadding(new Insets(0, 15, 0, 0));
 		
 		ColumnConstraints colC = new ColumnConstraints();
 		colC.setPercentWidth(100);
@@ -140,25 +116,41 @@ public class TicketInfoController implements BugHubController, Initializable {
 		heavyData.setValignment(VPos.CENTER);
 		RowConstraints hiddenData = new RowConstraints();
 		
-		cell.getColumnConstraints().add(colC);
-		cell.getRowConstraints().addAll(hiddenData, regData, heavyData, regData);
+		listCell.getColumnConstraints().add(colC);
+		listCell.getRowConstraints().addAll(hiddenData, heavyData, regData);
 		
 		Label commentId = new Label(String.valueOf(comment.getId()));
 		commentId.setVisible(false);
-		cell.add(commentId, 0, 0);
-		Label commentTitle = new Label(comment.getTitle());
-		cell.add(commentTitle, 0, 0);
+		listCell.add(commentId, 0, 0);
 		Label commentDescr = new Label(comment.getDescr());
-		cell.add(commentDescr, 0, 0);
+		commentDescr.setWrapText(true);
+		listCell.add(commentDescr, 0, 1);
 		Label commentDate = new Label(comment.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
 		GridPane.setHalignment(commentDate, HPos.RIGHT);
-		cell.add(commentDate, 0, 0);
+		listCell.add(commentDate, 0, 2);
 		
-		return cell;
+		return listCell;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		descriptionArea.setWrapText(true);
+		ticketDescr.setOnMouseClicked(mouseEvent -> {
+			if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
+				savingDescrHelpLabel.setVisible(true);
+				ticketDescr.setEditable(true);
+				mouseEvent.consume();
+			}
+		});
+		ticketDescr.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+			if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && ticketDescr.isEditable()) {
+				savingDescrHelpLabel.setVisible(false);
+				ticketDescr.setEditable(false);
+				characterCount.setText(ticketDescr.getText().length() + "/256");
+				ticket.setDescr(ticketDescr.getText());
+				mouseEvent.consume();
+			}
+		});
 		commentList.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
 			GridPane selectedCell = commentList.getSelectionModel().getSelectedItem();
 			if (selectedCell != null) {
@@ -166,9 +158,5 @@ public class TicketInfoController implements BugHubController, Initializable {
 				mouseEvent.consume();
 			}
 		});
-		
-		todaysDate = LocalDate.now();
-		startingDate.setValue(todaysDate);
-		time = LocalTime.now();
 	}
 }

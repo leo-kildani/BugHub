@@ -22,7 +22,7 @@
       </font>
    </Button>
    <Line endX="327.0" endY="27.0" layoutX="191.0" layoutY="-5.0" startX="327.0" startY="53.0" stroke="WHITE" />
-   <Button layoutX="518.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="New Ticket">
+   <Button layoutX="518.0" layoutY="22.0" mnemonicParsing="false" onAction="#switchToTicketForm" style="-fx-background-color: transparent;" text="New Ticket">
       <font>
          <Font name="Arial Bold" size="14.0" />
       </font>
@@ -49,11 +49,6 @@
       </font>
    </Text>
    <Button layoutX="329.0" layoutY="288.0" mnemonicParsing="false" onAction="#switchToProjectDirectory" prefHeight="36.0" prefWidth="131.0" style="-fx-background-color: #afb4b9;" text="View Projects">
-      <font>
-         <Font name="Arial Bold" size="14.0" />
-      </font>
-   </Button>
-   <Button layoutX="488.0" layoutY="288.0" mnemonicParsing="false" onAction="#switchToTicketInfo" prefHeight="36.0" prefWidth="131.0" style="-fx-background-color: #afb4b9;" text="View Tickets">
       <font>
          <Font name="Arial Bold" size="14.0" />
       </font>
