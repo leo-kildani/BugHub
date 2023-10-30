@@ -28,6 +28,9 @@ public class ProjectFormController extends AbstractBugHubController {
     @FXML
     private LocalDate todaysDate;
     
+    private int nameCharLimit =64;
+    private int descriptionCharLimit =256;
+    
     @FXML
     public void initialize() {
         todaysDate = LocalDate.now();
@@ -48,7 +51,9 @@ public class ProjectFormController extends AbstractBugHubController {
      * This method will save all the contents given by the user for the project they want to save.
      * If there is a missing name or description, the user will be prompted to fill in those fields.
      */
-    public void saveForm(ActionEvent e) {
+    public void saveForm(ActionEvent e) 
+    {
+    
         int id = IdGenerator.generateId();
         while (Objects.nonNull(model.getDao().getProject(id)))
             id = IdGenerator.generateId();
@@ -56,14 +61,23 @@ public class ProjectFormController extends AbstractBugHubController {
         String projectDescription = descriptionArea.getText();
         LocalDate startDate = startingDate.getValue();
         
+        // Missing credentials alert
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Error");
-        alert.setHeaderText("Missing Credentials");
-        alert.setContentText("Do not leave any textfields empty before saving");
+        
         
         if(projectName.isEmpty() || projectDescription.isEmpty()) {
-        	alert.showAndWait();
-        } else {
+        	alert.setTitle("Error");
+            alert.setHeaderText("Missing Credentials");
+            alert.setContentText("Do not leave any textfields empty before saving");
+        	alert.showAndWait();  
+        }
+        else if (projectName.length() > nameCharLimit|| projectDescription.length() > descriptionCharLimit){
+        	alert.setTitle("Character Limit Exceeded");
+            alert.setHeaderText("Character limits exceeded.");
+            alert.setContentText("Name: " + nameCharLimit + " characters, Description: " + descriptionCharLimit + " characters.");
+            alert.showAndWait();
+        }
+        else {
             Project p = new Project(id, projectName, projectDescription, startDate);
 
             model.getDao().addProject(p);
