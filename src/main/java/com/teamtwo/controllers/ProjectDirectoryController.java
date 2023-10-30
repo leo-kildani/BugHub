@@ -4,6 +4,7 @@ import com.teamtwo.entity.Project;
 import com.teamtwo.data_model.BugHubDataModel;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
@@ -42,6 +44,9 @@ public class ProjectDirectoryController extends AbstractBugHubController impleme
 
     @FXML
     private TableColumn<Project, Integer> projectTicketCount;
+    
+    @FXML
+    private TextField projectSearchField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,6 +69,14 @@ public class ProjectDirectoryController extends AbstractBugHubController impleme
         		.getService()
         		.getTicketsByProjectId(p.getValue().getId()).size())
         		.asObject());
+        
+        this.projectSearchField.textProperty().addListener((obs, oldSearch, newSearch) -> {
+        	if (newSearch.isEmpty()) {
+        		projectTable.setItems(FXCollections.observableList(model.getService().getProjects()));
+        	} else {
+				projectTable.setItems(FXCollections.observableList(model.getService().getProjectsByTitle(newSearch)));
+			}
+        });
     }
 
     public void loadModel(BugHubDataModel model) {

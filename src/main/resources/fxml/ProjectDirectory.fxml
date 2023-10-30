@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -57,4 +58,5 @@
    <Button layoutX="518.0" layoutY="438.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Return to Main Menu" />
    <Button layoutX="162.0" layoutY="438.0" mnemonicParsing="false" onAction="#deleteProject" text="Delete Project" />
    <Button layoutX="50.0" layoutY="438.0" mnemonicParsing="false" onAction="#openProjectProfile" text="Open Project" />
+   <TextField fx:id="projectSearchField" layoutX="50.0" layoutY="76.0" promptText="Search Project by Title" style="-fx-background-radius: 10px;" />
 </AnchorPane>
