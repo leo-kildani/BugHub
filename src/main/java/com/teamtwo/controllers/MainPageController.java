@@ -29,4 +29,9 @@ public class MainPageController implements BugHubController{
 		Scene scene = ((Node) event.getSource()).getScene();
 		scene.setRoot(model.getNode("TICKET_INFO"));
 	}
+	
+	public void switchToTicketForm(ActionEvent event) throws IOException {
+		Scene scene = ((Node) event.getSource()).getScene();
+		scene.setRoot(model.getNode("TICKET_FORM"));
+	}
 }
