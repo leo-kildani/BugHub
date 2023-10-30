@@ -59,13 +59,17 @@ public class ProjectDirectoryController extends AbstractBugHubController impleme
         this.projectId.setCellValueFactory(new PropertyValueFactory<>("id"));
         this.projectTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         this.projectDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        this.projectTicketCount.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getTickets().size()).asObject());
+        this.projectTicketCount.setCellValueFactory(p -> new SimpleIntegerProperty(
+        		model
+        		.getService()
+        		.getTicketsByProjectId(p.getValue().getId()).size())
+        		.asObject());
     }
 
     public void loadModel(BugHubDataModel model) {
         this.model = model;
 
-        this.projectTable.setItems(FXCollections.observableList(this.model.getDao().getProjects()));
+        this.projectTable.setItems(FXCollections.observableList(this.model.getService().getProjects()));
         this.projectTable.setPlaceholder(new Label("Click Create Project to get started!"));
     }
 
@@ -97,7 +101,7 @@ public class ProjectDirectoryController extends AbstractBugHubController impleme
             
             if (result.isPresent() && result.get() == confirmButton) {
                 // user confirm deletion
-                model.getDao().deleteProject(project.getId());
+                model.getService().deleteProject(project.getId());
                 projectTable.getItems().remove(project);
             }
         }
@@ -116,6 +120,5 @@ public class ProjectDirectoryController extends AbstractBugHubController impleme
     public TableView<Project> getProjectTable() {
         return projectTable;
     }
-
 }
 

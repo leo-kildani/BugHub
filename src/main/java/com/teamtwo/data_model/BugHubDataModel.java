@@ -1,7 +1,8 @@
 package com.teamtwo.data_model;
 
-import com.teamtwo.access.BugHubDataAccess;
 import com.teamtwo.controllers.BugHubController;
+import com.teamtwo.service.BugHubService;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -11,17 +12,17 @@ public class BugHubDataModel {
 
     private static final ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
-    private final BugHubDataAccess dao;
+    private final BugHubService service;
 
-    public BugHubDataModel(BugHubDataAccess dao) {
-        this.dao = dao;
+    public BugHubDataModel(BugHubService service) {
+        this.service = service;
         for (MODEL m: MODEL.values()) {
             getController(m.toString(), BugHubController.class).loadModel(this);
         }
     }
 
-    public BugHubDataAccess getDao() {
-        return dao;
+    public BugHubService getService() {
+        return service;
     }
 
     public Parent getNode(String page) {

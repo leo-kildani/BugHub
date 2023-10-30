@@ -62,7 +62,7 @@ public class TicketProfileController extends AbstractBugHubController implements
 		this.characterCount.setText(ticket.getDescr().length() + "/256");
 		
 		this.commentList.getItems().clear();
-		for(Comment c : ticket.getComments().values()) {
+		for(Comment c : model.getService().getCommentsByTicketId(ticket.getId())) {
 			commentList.getItems().add(createCommentListCell(c));
 		}
 	}
@@ -74,16 +74,13 @@ public class TicketProfileController extends AbstractBugHubController implements
 	public void deleteComment(ActionEvent e) {
 		GridPane commentCell = commentList.getSelectionModel().getSelectedItem();
 		if (commentCell != null) {
-			Label ticketId = (Label) commentCell.getChildren().get(0);
-			model.getDao().deleteComment(ticket, Integer.parseInt(ticketId.getText()));
+			Label commentId = (Label) commentCell.getChildren().get(0);
+			model.getService().deleteComment(Integer.parseInt(commentId.getText()));
 			commentList.getItems().remove(commentCell);
 		}
 	}
 	
 	public void saveComment(ActionEvent e) {
-        int id = IdGenerator.generateId();
-        while (Objects.nonNull(model.getDao().getComment(this.ticket, id)))
-            id = IdGenerator.generateId();
         String commentDescription = descriptionArea.getText();
         
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -94,8 +91,11 @@ public class TicketProfileController extends AbstractBugHubController implements
         if(commentDescription.isEmpty()) {
         	alert.showAndWait();
         } else {
+        	 int id = IdGenerator.generateId();
+             while (model.getService().getComment(id) != null)
+                 id = IdGenerator.generateId();
             Comment c = new Comment(id, commentDescription, this.ticket.getId());
-            model.getDao().addComment(this.ticket, c);
+            model.getService().addComment(c);
             commentList.getItems().add(createCommentListCell(c));
             clearForm(e);
         }

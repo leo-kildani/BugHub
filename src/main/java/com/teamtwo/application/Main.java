@@ -3,6 +3,9 @@ package com.teamtwo.application;
 import com.teamtwo.access.BugHubDataAccess;
 import com.teamtwo.access.BugHubDataAccessFileImpl;
 import com.teamtwo.data_model.BugHubDataModel;
+import com.teamtwo.service.BugHubService;
+import com.teamtwo.service.BugHubServiceImpl;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,6 +14,7 @@ import java.io.IOException;
 public class Main extends Application {
 
 	private BugHubDataAccess dao;
+	private BugHubService service;
     private BugHubDataModel model;
 
     public static void main(String[] args) {
@@ -24,7 +28,8 @@ public class Main extends Application {
     @Override
     public void init() throws IOException {
         this.dao = new BugHubDataAccessFileImpl();
-        this.model = new BugHubDataModel(dao);
+        this.service = new BugHubServiceImpl(dao);
+        this.model = new BugHubDataModel(this.service);
     }
 
     // This method runs javafx application

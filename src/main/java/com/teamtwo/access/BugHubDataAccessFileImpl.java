@@ -138,7 +138,7 @@ public class BugHubDataAccessFileImpl implements BugHubDataAccess {
         try {
             TypeFactory factory = TypeFactory.defaultInstance();
             MapType mapType = factory.constructMapType(HashMap.class, Integer.class, Comment.class);
-            res = mapper.readValue(new File(DATA_FILE_PATHS[0]), mapType);
+            res = mapper.readValue(new File(DATA_FILE_PATHS[2]), mapType);
         } catch (IOException e) {
             res = new HashMap<>();
         }

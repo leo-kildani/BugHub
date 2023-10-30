@@ -51,12 +51,7 @@ public class ProjectFormController extends AbstractBugHubController {
      * This method will save all the contents given by the user for the project they want to save.
      * If there is a missing name or description, the user will be prompted to fill in those fields.
      */
-    public void saveForm(ActionEvent e) 
-    {
-    
-        int id = IdGenerator.generateId();
-        while (Objects.nonNull(model.getDao().getProject(id)))
-            id = IdGenerator.generateId();
+    public void saveForm(ActionEvent e) {
         String projectName = projectNameField.getText();
         String projectDescription = descriptionArea.getText();
         LocalDate startDate = startingDate.getValue();
@@ -65,7 +60,7 @@ public class ProjectFormController extends AbstractBugHubController {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         
         
-        if(projectName.isEmpty() || projectDescription.isEmpty()) {
+        if(projectName.isEmpty() || projectDescription.isEmpty() || startDate == null) {
         	alert.setTitle("Error");
             alert.setHeaderText("Missing Credentials");
             alert.setContentText("Do not leave any textfields empty before saving");
@@ -78,9 +73,13 @@ public class ProjectFormController extends AbstractBugHubController {
             alert.showAndWait();
         }
         else {
+            int id = IdGenerator.generateId();
+            while (model.getService().getProject(id) != null)
+                id = IdGenerator.generateId();
+            
             Project p = new Project(id, projectName, projectDescription, startDate);
 
-            model.getDao().addProject(p);
+            model.getService().addProject(p);
 
             model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class)
                     .getProjectTable()

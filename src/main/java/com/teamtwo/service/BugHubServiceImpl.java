@@ -72,11 +72,22 @@ public class BugHubServiceImpl implements BugHubService {
 	@Override
 	public void deleteProject(int projectId) {
 		dao.deleteProject(projectId);
+		dao.getTickets().stream()
+				.filter(t -> t.getProjectId() == projectId)
+				.forEach(t -> {
+					dao.getComments().stream()
+							.filter(c -> c.getTicketId() == t.getId())
+							.forEach(c -> dao.deleteComment(c.getId()));
+					dao.deleteTicket(t.getId());
+				});
 	}
 
 	@Override
 	public void deleteTicket(int ticketId) {
 		dao.deleteTicket(ticketId);
+		dao.getComments().stream()
+				.filter(c -> c.getTicketId() == ticketId)
+				.forEach(c -> dao.deleteComment(c.getId()));
 	}
 
 	@Override
