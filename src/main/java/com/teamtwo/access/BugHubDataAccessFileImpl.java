@@ -1,7 +1,6 @@
 package com.teamtwo.access;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -44,8 +43,8 @@ public class BugHubDataAccessFileImpl implements BugHubDataAccess {
     }
 
     @Override
-    public boolean deleteProject(int projectId) {
-        return Objects.nonNull(projectMap.remove(projectId));
+    public void deleteProject(int projectId) {
+        projectMap.remove(projectId);
     }
 
     @Override
@@ -59,8 +58,8 @@ public class BugHubDataAccessFileImpl implements BugHubDataAccess {
     }
 
     @Override
-    public boolean removeTicket(Project project, int ticketId) {
-        return Objects.nonNull(project.getTickets().remove(ticketId));
+    public void deleteTicket(Project project, int ticketId) {
+        project.getTickets().remove(ticketId);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class BugHubDataAccessFileImpl implements BugHubDataAccess {
     }
 
     @Override
-    public boolean removeComment(Ticket ticket, int commentId) {
+    public boolean deleteComment(Ticket ticket, int commentId) {
         return Objects.nonNull(ticket.getComments().remove(commentId));
     }
 

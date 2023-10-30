@@ -1,0 +1,3 @@
+.list-view .scroll-bar:horizontal {
+    -fx-scale-y: 0;
+}

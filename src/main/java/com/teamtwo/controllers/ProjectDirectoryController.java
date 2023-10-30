@@ -5,7 +5,6 @@ import com.teamtwo.data_model.BugHubDataModel;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -20,7 +19,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,17 +57,21 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
             });
             return row;
         });
-    }
-
-    public void loadModel(BugHubDataModel model) {
-        this.model = model;
         this.projectId.setCellValueFactory(new PropertyValueFactory<>("id"));
         this.projectTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         this.projectDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         this.projectTicketCount.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getTickets().size()).asObject());
+    }
+
+    public void loadModel(BugHubDataModel model) {
+        this.model = model;
 
         this.projectTable.setItems(FXCollections.observableList(this.model.getDao().getProjects()));
         this.projectTable.setPlaceholder(new Label("Click Create Project to get started!"));
+    }
+
+    public void updateProjectCell(Project project, int projectIdx) {
+        projectTable.getItems().set(projectIdx, project);
     }
 
     @FXML
@@ -107,6 +109,18 @@ public class ProjectDirectoryController implements Initializable, BugHubControll
                 model.getDao().deleteProject(project.getId());
                 projectTable.getItems().remove(project);
             }
+        }
+    }
+
+    @FXML
+    public void openProjectProfile(ActionEvent event) {
+        Project project = projectTable.getSelectionModel().getSelectedItem();
+        if (project != null) {
+            ProjectProfileController controller = model.getController("PROJECT_PROFILE", ProjectProfileController.class);
+            controller.setProject(project);
+            controller.setProjectIdx(projectTable.getSelectionModel().getSelectedIndex());
+            Scene scene = ((Node) event.getSource()).getScene();
+            scene.setRoot(model.getNode("PROJECT_PROFILE"));
         }
     }
 
