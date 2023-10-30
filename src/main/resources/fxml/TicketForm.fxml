@@ -46,7 +46,7 @@
          <Font name="Arial Bold" size="30.0" />
       </font>
    </Text>
-   <Button layoutX="399.0" layoutY="22.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Create Project">
+   <Button layoutX="399.0" layoutY="22.0" mnemonicParsing="false" onAction="#switchToProjectForm" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Create Project">
       <font>
          <Font name="Arial Bold" size="14.0" />
       </font>
