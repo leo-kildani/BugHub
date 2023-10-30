@@ -24,7 +24,7 @@ import java.time.format.FormatStyle;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class TicketProfileController implements BugHubController, Initializable {
+public class TicketProfileController extends AbstractBugHubController implements Initializable {
 	
 	@FXML
 	private Label ticketTitle;
@@ -58,21 +58,8 @@ public class TicketProfileController implements BugHubController, Initializable 
     @FXML
     private TextField commentNameField;
 	
-	private BugHubDataModel model;
-	
 	public void loadModel(BugHubDataModel model) {
 		this.model = model;
-	}
-
-    @FXML
-    public void switchToMainMenu(ActionEvent event) throws IOException {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("MAIN_MENU"));
-    }
-	
-	public void switchToProjectForm(ActionEvent event) throws IOException {
-		Scene scene = ((Node) event.getSource()).getScene();
-		scene.setRoot(model.getNode("PROJECT_FORM"));
 	}
 	
 	public void setTicket(Ticket ticket) {
@@ -161,9 +148,5 @@ public class TicketProfileController implements BugHubController, Initializable 
 				mouseEvent.consume();
 			}
 		});
-		
-		todaysDate = LocalDate.now();
-		startingDate.setValue(todaysDate);
-		time = LocalTime.now();
 	}
 }

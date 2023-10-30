@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 
-public class ProjectProfileController implements BugHubController, Initializable {
+public class ProjectProfileController extends AbstractBugHubController implements Initializable {
 
     @FXML
     private Label projectTitle;
@@ -46,8 +46,6 @@ public class ProjectProfileController implements BugHubController, Initializable
     private Project project;
 
     private int projectIdx;
-
-    private BugHubDataModel model;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -81,17 +79,7 @@ public class ProjectProfileController implements BugHubController, Initializable
         this.model = model;
     }
 
-    @FXML
-    public void switchToMainMenu(ActionEvent event) throws IOException {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("MAIN_MENU"));
-    }
 
-    @FXML
-    public void switchToProjectForm(ActionEvent event) throws IOException {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("PROJECT_FORM"));
-    }
 
     @FXML
     public void openTicket(ActionEvent event) {

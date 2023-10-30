@@ -19,7 +19,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class TicketFormController implements BugHubController{
+public class TicketFormController extends AbstractBugHubController implements BugHubController{
     @FXML
     private ChoiceBox<Project> projectList;
 	
@@ -41,9 +41,6 @@ public class TicketFormController implements BugHubController{
     @FXML
     private TextField lastLine;
     
-
-    private BugHubDataModel model;
-    
     public void initialize() {
         ObservableList<String> statusCol = FXCollections.observableArrayList();
         statusCol.addAll("New", "In progress", "On hold", "Closed");
@@ -61,7 +58,6 @@ public class TicketFormController implements BugHubController{
     
     public void loadModel(BugHubDataModel model) {
         this.model = model;
-        
     }
 
     public void clearForm(ActionEvent e) {
@@ -99,10 +95,5 @@ public class TicketFormController implements BugHubController{
             model.getDao().addTicket(project, ticket);
             clearForm(e);
          }
-    }
-
-    public void cancelForm(ActionEvent e) throws IOException {
-        Scene scene = ((Node)e.getSource()).getScene();
-        scene.setRoot(model.getNode("MAIN_MENU"));
     }
 }
