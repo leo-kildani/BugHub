@@ -18,12 +18,11 @@ public class Comment extends AbstractEntry {
      * Construct a Comment object with a provided id, title, and description. A super call to AbstractEntry is made using the provided arguments.
      *
      * @param id id to be associated with this comment
-     * @param title title to be associated with this comment
      * @param descr description to be associated with this comment
      * @param ticketId id of ticket this comment is associated with
      */
-    public Comment(int id, String title, String descr, int ticketId) {
-        super(id, title, descr);
+    public Comment(int id, String descr, int ticketId) {
+        super(id, null, descr);
         this.ticketId = ticketId;
     }
 
