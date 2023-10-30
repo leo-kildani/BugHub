@@ -14,6 +14,20 @@ public interface BugHubDataAccess {
      * @return a list of all saved projects
      */
     public List<Project> getProjects();
+    
+    /**
+     * Returns a list of all the saved tickets in a database.
+     *
+     * @return a list of all saved tickets
+     */
+    public List<Ticket> getTickets();
+    
+    /**
+     * Returns a list of all the saved comments in a database.
+     *
+     * @return a list of all saved comments
+     */
+    public List<Comment> getComments();
 
     /**
      * Add a project to database.
@@ -37,55 +51,48 @@ public interface BugHubDataAccess {
     public Project getProject(int projectId);
 
     /**
-     * Add a ticket to a project.
+     * Add a ticket to database.
      *
-     * @param project project to add ticket to
      * @param ticket ticket to be added
      */
-    public void addTicket(Project project, Ticket ticket);
+    public void addTicket(Ticket ticket);
 
     /**
-     * Remove a ticket from a specified project given the ticket id.
+     * Remove a ticket from databse given the ticket id.
      *
-     * @param project  project to remove ticket from
      * @param ticketId id of ticket to be removed
      */
-    public void deleteTicket(Project project, int ticketId);
+    public void deleteTicket(int ticketId);
 
     /**
-     * Retrieve a ticket from a specified project given the ticket id.
+     * Retrieve a ticket from database given the ticket id.
      *
-     * @param project project to retrieve ticket from
      * @param ticketId id of ticket to be retrieved
      * @return ticket if ticket was found with given id; null otherwise
      */
-    public Ticket getTicket(Project project, int ticketId);
+    public Ticket getTicket(int ticketId);
 
     /**
-     * Add a comment to the specified ticket.
+     * Add a comment to database.
      *
-     * @param ticket ticket to add comment to
      * @param comment comment to be added
      */
-    public void addComment(Ticket ticket, Comment comment);
+    public void addComment(Comment comment);
 
     /**
-     * Remove a comment from a specified ticket.
+     * Remove a comment from database.
      *
-     * @param ticket ticket to remove comment from
      * @param commentId id of comment to be removed
-     * @return true comment was found with given id; false otherwise
      */
-    public boolean deleteComment(Ticket ticket, int commentId);
+    public void deleteComment(int commentId);
 
     /**
-     * Retrieve a comment from a specified ticket
+     * Retrieve a comment from database
      *
-     * @param ticket ticket to retrieve comment from
      * @param commentId id of comment to retrieve
      * @return comment if comment was found with given id; null otherwise
      */
-    public Comment getComment(Ticket ticket, int commentId);
+    public Comment getComment(int commentId);
 
     /**
      * Used to close any access to stored data. Either closing a file source or closing a database connection.

@@ -38,7 +38,7 @@ public class TicketFormController extends AbstractBugHubController implements In
     
     public void loadModel(BugHubDataModel model) {
         this.model = model;
-        List<String> projetTitleList = model.getDao().getProjects().stream()
+        List<String> projetTitleList = model.getService().getProjects().stream()
                 .map(AbstractEntry::getTitle).sorted().collect(Collectors.toList());
 
         ObservableList<String> projectCol = FXCollections.observableArrayList();
@@ -58,8 +58,7 @@ public class TicketFormController extends AbstractBugHubController implements In
      */
     public void saveForm(ActionEvent e) {
     	String projectTitle = projectList.getSelectionModel().getSelectedItem();
-        Project project = model.getDao().getProjects().stream()
-                .filter(p -> projectTitle.equals(p.getTitle())).findAny().orElse(null);
+        Project project = model.getService().getProjectsByTitle(projectTitle).get(0);
 
         String ticketName = ticketNameField.getText();
         String ticketDescription = descriptionArea.getText();
@@ -73,17 +72,17 @@ public class TicketFormController extends AbstractBugHubController implements In
         	alert.showAndWait();
         } else {
             int id = IdGenerator.generateId();
-            while (Objects.nonNull(model.getDao().getTicket(project,id)))
+            while (model.getService().getTicket(id) != null)
                 id = IdGenerator.generateId();
             Ticket ticket = new Ticket(id, ticketName, ticketDescription, project.getId());
-            model.getDao().addTicket(project, ticket);
+            model.getService().addTicket(ticket);
             model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project);
             clearForm(e);
          }
     }
 
     public void updateProjectList() {
-        List<String> projetTitleList = model.getDao().getProjects().stream()
+        List<String> projetTitleList = model.getService().getProjects().stream()
                 .map(AbstractEntry::getTitle).sorted().collect(Collectors.toList());
 
         ObservableList<String> projectCol = FXCollections.observableArrayList();

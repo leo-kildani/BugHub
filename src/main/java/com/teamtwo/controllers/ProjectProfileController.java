@@ -84,7 +84,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
         GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
         if (ticketCell != null) {
             Label ticketId = (Label) ticketCell.getChildren().get(0);
-            Ticket ticket = project.getTickets().get(Integer.valueOf(ticketId.getText()));
+            Ticket ticket = model.getService().getTicket(Integer.parseInt(ticketId.getText()));
             model.getController("TICKET_PROFILE", TicketProfileController.class).setTicket(ticket);
             switchToTicketProfile(event);
         }
@@ -95,7 +95,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
         GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
         if (ticketCell != null) {
             Label ticketId = (Label) ticketCell.getChildren().get(0);
-            model.getDao().deleteTicket(project, Integer.parseInt(ticketId.getText()));
+            model.getService().deleteTicket(Integer.parseInt(ticketId.getText()));
             ticketList.getItems().remove(ticketCell);
             model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project);
         }
@@ -109,7 +109,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
         this.characterCount.setText(project.getDescr().length() + "/256");
 
         this.ticketList.getItems().clear();
-        for (Ticket t: project.getTickets().values()) {
+        for (Ticket t: model.getService().getTicketsByProjectId(project.getId())) {
             ticketList.getItems().add(createTicketListCell(t));
         }
     }

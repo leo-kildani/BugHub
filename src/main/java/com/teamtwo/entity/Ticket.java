@@ -10,14 +10,8 @@ public class Ticket extends AbstractEntry{
      */
     private int projectId;
 
-    /**
-     * A map of comments associated with this ticket, stored using their ids. Initialized as an empty HashMap.
-     */
-    private Map<Integer, Comment> comments;
-
     public Ticket() {
         super();
-        comments = new HashMap<>();
     }
 
     /**
@@ -31,7 +25,6 @@ public class Ticket extends AbstractEntry{
     public Ticket(int id, String title, String descr, int projectId) {
         super(id, title, descr);
         this.projectId = projectId;
-        comments = new HashMap<>();
     }
 
     public int getProjectId() {
@@ -40,13 +33,5 @@ public class Ticket extends AbstractEntry{
 
     public void setProjectId(int projectId) {
         this.projectId = projectId;
-    }
-
-    public Map<Integer, Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Map<Integer, Comment> comments) {
-        this.comments = comments;
     }
 }

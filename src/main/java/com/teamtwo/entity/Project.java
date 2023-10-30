@@ -7,16 +7,10 @@ import java.util.Map;
 public class Project extends AbstractEntry {
 
     /**
-     * A map of tickets associated with this project, stored using their ids. Initialized as a new HashMap.
-     */
-    private Map<Integer, Ticket> tickets;
-
-    /**
      * Default Constructor
      */
     public Project() {
         super();
-        this.tickets = new HashMap<>();
     }
 
     /**
@@ -29,14 +23,5 @@ public class Project extends AbstractEntry {
      */
     public Project(int id, String title, String descr, LocalDate date) {
         super(id, title, descr, date);
-        tickets = new HashMap<>();
-    }
-
-    public Map<Integer, Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(Map<Integer, Ticket> tickets) {
-        this.tickets = tickets;
     }
 }
