@@ -24,7 +24,7 @@ public class BugHubServiceImpl implements BugHubService {
 	@Override
 	public List<Project> getProjectsByTitle(String title) {
 		return dao.getProjects().stream()
-				.filter(p -> p.getTitle().contains(title))
+				.filter(p -> p.getTitle().toLowerCase().contains(title.toLowerCase()))
 				.collect(Collectors.toList());
 	}
 
@@ -36,7 +36,7 @@ public class BugHubServiceImpl implements BugHubService {
 	@Override
 	public List<Ticket> getTicketsByTitle(String title) {
 		return dao.getTickets().stream()
-				.filter(t -> t.getTitle().contains(title))
+				.filter(t -> t.getTitle().toLowerCase().contains(title.toLowerCase()))
 				.collect(Collectors.toList());
 	}
 
