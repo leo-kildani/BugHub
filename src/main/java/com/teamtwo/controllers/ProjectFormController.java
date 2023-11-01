@@ -76,7 +76,7 @@ public class ProjectFormController extends AbstractBugHubController {
 
             model.getService().addProject(p);
 
-            model.getController("PROJECT_DIRECTORY", EntityDirectoryController.class)
+            model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class)
                     .getProjectTable()
                     .getItems()
                     .add(p);

@@ -58,13 +58,14 @@
    <Button layoutX="491.0" layoutY="439.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Return to Main Menu" />
    <Button fx:id="deleteProjectButton" layoutX="167.0" layoutY="243.0" mnemonicParsing="false" onAction="#deleteProject" text="Delete Project" />
    <Button fx:id="openProjectButton" layoutX="50.0" layoutY="243.0" mnemonicParsing="false" onAction="#openProjectProfile" text="Open Project" />
-   <TextField fx:id="projectSearchField" layoutX="50.0" layoutY="76.0" promptText="Search Entries by Title" style="-fx-background-radius: 10px;" />
+   <TextField fx:id="entitySearchField" layoutX="50.0" layoutY="76.0" promptText="Search Entries by Title" style="-fx-background-radius: 10px;" />
    <TableView fx:id="ticketTable" layoutX="50.0" layoutY="291.0" prefHeight="130.0" prefWidth="600.0" stylesheets="@../css/table_view.css">
       <columns>
-         <TableColumn fx:id="projectId1" editable="false" prefWidth="104.0" resizable="false" text="ID" />
-         <TableColumn fx:id="projectTitle1" editable="false" prefWidth="140.0" resizable="false" text="Title" />
-         <TableColumn fx:id="projectDate1" editable="false" prefWidth="158.0" resizable="false" text="Date Created" />
-         <TableColumn fx:id="projectTicketCount1" editable="false" minWidth="-Infinity" prefWidth="197.0" resizable="false" text="# Tickets" />
+         <TableColumn fx:id="ticketId" editable="false" prefWidth="104.0" resizable="false" text="ID" />
+         <TableColumn fx:id="ticketTitle" editable="false" prefWidth="139.0" resizable="false" text="Title" />
+         <TableColumn fx:id="ticketDate" editable="false" prefWidth="132.0" resizable="false" text="Date Created" />
+         <TableColumn fx:id="ticketProjectId" editable="false" prefWidth="110.0" resizable="false" text="Project ID" />
+         <TableColumn fx:id="ticketCommentCount" editable="false" minWidth="-Infinity" prefWidth="114.0" resizable="false" text="# Comments" />
       </columns>
       <columnResizePolicy>
          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -75,6 +76,6 @@
          <Font name="Arial Bold" size="26.0" />
       </font>
    </Text>
-   <Button fx:id="openProjectButton1" layoutX="50.0" layoutY="425.0" mnemonicParsing="false" onAction="#openTicketButton" text="Open Ticket" />
-   <Button fx:id="deleteTicketButton" layoutX="167.0" layoutY="425.0" mnemonicParsing="false" text="Delete Ticket" />
+   <Button fx:id="openTicketButton" layoutX="50.0" layoutY="425.0" mnemonicParsing="false" onAction="#openTicketProfile" text="Open Ticket" />
+   <Button fx:id="deleteTicketButton" layoutX="167.0" layoutY="425.0" mnemonicParsing="false" onAction="#deleteTicket" text="Delete Ticket" />
 </AnchorPane>

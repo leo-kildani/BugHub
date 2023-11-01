@@ -95,7 +95,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             model.getService().deleteTicket(Integer.parseInt(ticketId.getText()));
             ticketList.getItems().remove(ticketCell);
-            model.getController("PROJECT_DIRECTORY", EntityDirectoryController.class).updateProjectCell(project);
+            model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class).updateProjectCell(project);
         }
     }
 

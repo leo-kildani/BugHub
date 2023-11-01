@@ -2,6 +2,7 @@ package com.teamtwo.controllers;
 
 import com.teamtwo.entity.Project;
 import com.teamtwo.data_model.BugHubDataModel;
+import com.teamtwo.entity.Ticket;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -41,9 +43,27 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
 
     @FXML
     private TableColumn<Project, Integer> projectTicketCount;
+
+    @FXML
+    private TableView<Ticket> ticketTable;
+
+    @FXML
+    private TableColumn<Ticket, Integer> ticketId;
+
+    @FXML
+    private TableColumn<Ticket, String> ticketTitle;
+
+    @FXML
+    private TableColumn<Ticket, LocalDate> ticketDate;
+
+    @FXML
+    private TableColumn<Ticket, Integer> ticketProjectId;
+
+    @FXML
+    private TableColumn<Ticket, Integer> ticketCommentCount;
     
     @FXML
-    private TextField projectSearchField;
+    private TextField entitySearchField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,29 +78,60 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
             });
             return row;
         });
-        this.projectId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        this.projectTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        this.projectDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        this.projectTicketCount.setCellValueFactory(p -> new SimpleIntegerProperty(
+        projectId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        projectTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        projectDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        projectTicketCount.setCellValueFactory(p -> new SimpleIntegerProperty(
         		model
         		.getService()
         		.getTicketsByProjectId(p.getValue().getId()).size())
         		.asObject());
+
+        ticketTable.setRowFactory(tikTable -> {
+            final TableRow<Ticket> row = new TableRow<>();
+            row.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+                final int index = row.getIndex();
+                if (index >= 0 && index < ticketTable.getItems().size() && ticketTable.getSelectionModel().isSelected(index)) {
+                    ticketTable.getSelectionModel().clearSelection();
+                    mouseEvent.consume();
+                }
+            });
+            return row;
+        });
+
+        ticketId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        ticketTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        ticketDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        ticketProjectId.setCellValueFactory(new PropertyValueFactory<>("projectId"));
+        ticketCommentCount.setCellValueFactory(t -> new SimpleIntegerProperty(
+                model
+                        .getService()
+                        .getCommentsByTicketId(t.getValue().getId()).size())
+                .asObject());
         
-        this.projectSearchField.textProperty().addListener((obs, oldSearch, newSearch) -> {
+        this.entitySearchField.textProperty().addListener((obs, oldSearch, newSearch) -> {
         	if (newSearch.isEmpty()) {
         		projectTable.setItems(FXCollections.observableList(model.getService().getProjects()));
+                ticketTable.setItems(FXCollections.observableList(model.getService().getTickets()));
         	} else {
-				projectTable.setItems(FXCollections.observableList(model.getService().getProjectsByTitle(newSearch)));
+                List<Project> foundProjects = model.getService().getProjectsByTitle(newSearch);
+                List<Ticket> foundTickets = model.getService().getTicketsByTitle(newSearch);
+
+//              add tickets of each found project
+                foundProjects.forEach(p -> foundTickets.addAll(model.getService().getTicketsByProjectId(p.getId())));
+
+				projectTable.setItems(FXCollections.observableList(foundProjects));
+                ticketTable.setItems(FXCollections.observableList(foundTickets));
 			}
         });
     }
 
     public void loadModel(BugHubDataModel model) {
         this.model = model;
-
-        this.projectTable.setItems(FXCollections.observableList(this.model.getService().getProjects()));
+        this.projectTable.setItems(FXCollections.observableList(model.getService().getProjects()));
+        this.ticketTable.setItems(FXCollections.observableList(model.getService().getTickets()));
         this.projectTable.setPlaceholder(new Label("Click Create Project to get started!"));
+        this.ticketTable.setPlaceholder(new Label("Click Create Ticket to get started!"));
     }
 
     public void updateProjectCell(Project project) {
@@ -113,7 +164,17 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
                 // user confirm deletion
                 model.getService().deleteProject(project.getId());
                 projectTable.getItems().remove(project);
+                ticketTable.setItems(FXCollections.observableList(model.getService().getTickets()));
             }
+        }
+    }
+
+    @FXML
+    public void deleteTicket(ActionEvent event) {
+        Ticket ticket = ticketTable.getSelectionModel().getSelectedItem();
+        if (ticket != null) {
+            model.getService().deleteTicket(ticket.getId());
+            ticketTable.getItems().remove(ticket);
         }
     }
 
@@ -127,8 +188,21 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
         }
     }
 
+    @FXML
+    public void openTicketProfile(ActionEvent event) throws IOException {
+        Ticket ticket = ticketTable.getSelectionModel().getSelectedItem();
+        if (ticket != null) {
+            model.getController("TICKET_PROFILE", TicketProfileController.class).setTicket(ticket);
+            switchToTicketProfile(event);
+        }
+    }
+
     public TableView<Project> getProjectTable() {
         return projectTable;
+    }
+
+    public TableView<Ticket> getTicketTable() {
+        return ticketTable;
     }
 }
 

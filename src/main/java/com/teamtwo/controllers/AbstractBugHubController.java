@@ -30,7 +30,7 @@ public abstract class AbstractBugHubController implements BugHubController {
     @FXML
     public void switchToProjectDirectory(ActionEvent event) throws IOException {
         Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("PROJECT_DIRECTORY"));
+        scene.setRoot(model.getNode("ENTITY_DIRECTORY"));
     }
 
     @FXML

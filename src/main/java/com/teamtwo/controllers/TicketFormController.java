@@ -71,7 +71,9 @@ public class TicketFormController extends AbstractBugHubController implements In
                 id = IdGenerator.generateId();
             Ticket ticket = new Ticket(id, ticketName, ticketDescription, project.getId());
             model.getService().addTicket(ticket);
-            model.getController("PROJECT_DIRECTORY", EntityDirectoryController.class).updateProjectCell(project);
+            EntityDirectoryController controller = model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class);
+            controller.updateProjectCell(project);
+            controller.getTicketTable().getItems().add(ticket);
             clearForm(e);
          }
     }
