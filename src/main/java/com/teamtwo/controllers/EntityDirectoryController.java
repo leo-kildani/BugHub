@@ -4,12 +4,9 @@ import com.teamtwo.entity.Project;
 import com.teamtwo.data_model.BugHubDataModel;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -28,7 +25,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ProjectDirectoryController extends AbstractBugHubController implements Initializable {
+public class EntityDirectoryController extends AbstractBugHubController implements Initializable {
 
     @FXML
     private TableView<Project> projectTable;

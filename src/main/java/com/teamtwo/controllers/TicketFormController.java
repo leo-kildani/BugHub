@@ -1,10 +1,7 @@
 package com.teamtwo.controllers;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -19,8 +16,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
@@ -76,7 +71,7 @@ public class TicketFormController extends AbstractBugHubController implements In
                 id = IdGenerator.generateId();
             Ticket ticket = new Ticket(id, ticketName, ticketDescription, project.getId());
             model.getService().addTicket(ticket);
-            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project);
+            model.getController("PROJECT_DIRECTORY", EntityDirectoryController.class).updateProjectCell(project);
             clearForm(e);
          }
     }

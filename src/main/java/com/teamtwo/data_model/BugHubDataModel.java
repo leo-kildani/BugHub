@@ -36,7 +36,7 @@ public class BugHubDataModel {
 
     private enum MODEL{
         MAIN_MENU("fxml/Main.fxml"),
-        PROJECT_DIRECTORY("fxml/ProjectDirectory.fxml"),
+        ENTITY_DIRECTORY("fxml/EntityDirectory.fxml"),
         PROJECT_FORM("fxml/ProjectForm.fxml"),
         TICKET_FORM("fxml/TicketForm.fxml"),
     	TICKET_PROFILE("fxml/TicketProfile.fxml"),

@@ -10,8 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -97,7 +95,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             model.getService().deleteTicket(Integer.parseInt(ticketId.getText()));
             ticketList.getItems().remove(ticketCell);
-            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project);
+            model.getController("PROJECT_DIRECTORY", EntityDirectoryController.class).updateProjectCell(project);
         }
     }
 
