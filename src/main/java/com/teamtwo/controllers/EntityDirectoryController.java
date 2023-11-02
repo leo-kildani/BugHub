@@ -23,9 +23,9 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EntityDirectoryController extends AbstractBugHubController implements Initializable {
 
@@ -118,7 +118,14 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
                 List<Ticket> foundTickets = model.getService().getTicketsByTitle(newSearch);
 
 //              add tickets of each found project
-                foundProjects.forEach(p -> foundTickets.addAll(model.getService().getTicketsByProjectId(p.getId())));
+                List<Ticket> foundTicketsByProjectTitle = new ArrayList<>();
+                foundProjects.forEach(p -> foundTicketsByProjectTitle.addAll(model.getService().getTicketsByProjectId(p.getId())));
+
+                foundTickets = Stream.of(foundTickets, foundTicketsByProjectTitle)
+                                .flatMap(Collection::stream)
+                                        .distinct()
+                                                .collect(Collectors.toList());
+
 
 				projectTable.setItems(FXCollections.observableList(foundProjects));
                 ticketTable.setItems(FXCollections.observableList(foundTickets));
