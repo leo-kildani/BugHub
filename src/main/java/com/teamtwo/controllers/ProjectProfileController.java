@@ -61,6 +61,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
                 mouseEvent.consume();
             }
         });
+        ticketList.setPlaceholder(new Label("Click \"Create Ticket\" to get started!"));
         ticketList.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             GridPane selectedCell = ticketList.getSelectionModel().getSelectedItem();
             if (selectedCell != null) {

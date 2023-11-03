@@ -181,6 +181,7 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
         Ticket ticket = ticketTable.getSelectionModel().getSelectedItem();
         if (ticket != null) {
             model.getService().deleteTicket(ticket.getId());
+            updateProjectCell(model.getService().getProject(ticket.getProjectId()));
             ticketTable.getItems().remove(ticket);
         }
     }
