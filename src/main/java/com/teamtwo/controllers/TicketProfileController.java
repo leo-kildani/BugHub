@@ -5,6 +5,7 @@ import com.teamtwo.entity.Comment;
 import com.teamtwo.entity.Ticket;
 import com.teamtwo.util.IdGenerator;
 
+import com.teamtwo.util.StringShortener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -77,6 +78,7 @@ public class TicketProfileController extends AbstractBugHubController implements
 			Label commentId = (Label) commentCell.getChildren().get(0);
 			model.getService().deleteComment(Integer.parseInt(commentId.getText()));
 			commentList.getItems().remove(commentCell);
+			model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class).updateTicketCell(ticket);
 		}
 	}
 	
@@ -97,44 +99,48 @@ public class TicketProfileController extends AbstractBugHubController implements
             Comment c = new Comment(id, commentDescription, this.ticket.getId());
             model.getService().addComment(c);
             commentList.getItems().add(createCommentListCell(c));
-            clearForm(e);
+			model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class).updateTicketCell(ticket);
+			clearForm(e);
         }
 	}
 	
 	private GridPane createCommentListCell(Comment comment) {
 		GridPane listCell = new GridPane();
-		listCell.setMaxSize(commentList.getPrefWidth(), Math.floor(commentList.getPrefHeight() / 3));
+		listCell.setMaxSize(commentList.getPrefWidth(), Math.floor(commentList.getPrefHeight() / 2));
 		listCell.setPadding(new Insets(0, 15, 0, 0));
-		
-		ColumnConstraints colC = new ColumnConstraints();
-		colC.setPercentWidth(100);
+
+		// set cell constraints
+		ColumnConstraints colConstraint = new ColumnConstraints();
+		colConstraint.setPercentWidth(100);
 		RowConstraints regData = new RowConstraints();
 		regData.setVgrow(Priority.NEVER);
 		regData.setValignment(VPos.CENTER);
 		RowConstraints heavyData = new RowConstraints();
 		heavyData.setVgrow(Priority.ALWAYS);
 		heavyData.setValignment(VPos.CENTER);
-		RowConstraints hiddenData = new RowConstraints();
-		
-		listCell.getColumnConstraints().add(colC);
+		RowConstraints hiddenData = new RowConstraints(0);
+
+		listCell.getColumnConstraints().add(colConstraint);
 		listCell.getRowConstraints().addAll(hiddenData, heavyData, regData);
-		
-		Label commentId = new Label(String.valueOf(comment.getId()));
-		commentId.setVisible(false);
-		listCell.add(commentId, 0, 0);
-		Label commentDescr = new Label(comment.getDescr());
-		commentDescr.setWrapText(true);
-		listCell.add(commentDescr, 0, 1);
-		Label commentDate = new Label(comment.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
-		GridPane.setHalignment(commentDate, HPos.RIGHT);
-		listCell.add(commentDate, 0, 2);
-		
+
+		// make/add labels in order
+		Label ticketId = new Label(String.valueOf(comment.getId()));
+		ticketId.setVisible(false);
+		listCell.add(ticketId, 0, 0);
+		Label ticketDescr = new Label(comment.getDescr());
+		ticketDescr.setWrapText(true);
+		listCell.add(ticketDescr, 0, 1);
+		Label ticketDate = new Label(comment.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+		GridPane.setHalignment(ticketDate, HPos.RIGHT);
+		listCell.add(ticketDate, 0, 2);
+
 		return listCell;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		descriptionArea.setWrapText(true);
+		ticketDescr.setWrapText(true);
 		ticketDescr.setOnMouseClicked(mouseEvent -> {
 			if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
 				savingDescrHelpLabel.setVisible(true);
@@ -143,7 +149,7 @@ public class TicketProfileController extends AbstractBugHubController implements
 			}
 		});
 		ticketDescr.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-			if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && ticketDescr.isEditable()) {
+			if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2 && ticketDescr.isEditable()) {
 				savingDescrHelpLabel.setVisible(false);
 				ticketDescr.setEditable(false);
 				characterCount.setText(ticketDescr.getText().length() + "/256");
@@ -158,6 +164,8 @@ public class TicketProfileController extends AbstractBugHubController implements
 				mouseEvent.consume();
 			}
 		});
-		commentList.setPlaceholder(new Label("Create new comment under \"New Comment\" section!"));
+		Label placeholder = new Label("Create new comment under \"New Comment\" section!");
+		placeholder.setWrapText(true);
+		commentList.setPlaceholder(placeholder);
 	}
 }

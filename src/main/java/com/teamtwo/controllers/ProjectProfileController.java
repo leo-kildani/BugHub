@@ -53,7 +53,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
             }
         });
         projectDescr.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && projectDescr.isEditable()) {
+            if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2 && projectDescr.isEditable()) {
                 savingDescrHelpLabel.setVisible(false);
                 projectDescr.setEditable(false);
                 characterCount.setText(projectDescr.getText().length() + "/256");
@@ -61,7 +61,6 @@ public class ProjectProfileController extends AbstractBugHubController implement
                 mouseEvent.consume();
             }
         });
-        ticketList.setPlaceholder(new Label("Click \"Create Ticket\" to get started!"));
         ticketList.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             GridPane selectedCell = ticketList.getSelectionModel().getSelectedItem();
             if (selectedCell != null) {
@@ -69,6 +68,9 @@ public class ProjectProfileController extends AbstractBugHubController implement
                 mouseEvent.consume();
             }
         });
+        Label placeholder = new Label("Click \"Create Ticket\" to get started!");
+        placeholder.setWrapText(true);
+        ticketList.setPlaceholder(placeholder);
     }
 
     @Override

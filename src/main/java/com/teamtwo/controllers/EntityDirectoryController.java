@@ -149,6 +149,14 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
         projectTable.getItems().set(idx, project);
     }
 
+    public void updateTicketCell(Ticket ticket) {
+        int idx = 0;
+        while (ticket.getId() != ticketTable.getItems().get(idx).getId()) {
+            idx++;
+        }
+        ticketTable.getItems().set(idx, ticket);
+    }
+
     @FXML
     public void deleteProject(ActionEvent event) {
         Project project = projectTable.getSelectionModel().getSelectedItem();

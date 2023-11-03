@@ -30,6 +30,7 @@ public class ProjectFormController extends AbstractBugHubController {
     public void initialize() {
         todaysDate = LocalDate.now();
         startingDate.setValue(todaysDate);
+        descriptionArea.setWrapText(true);
     }
 
     public void loadModel(BugHubDataModel model) {

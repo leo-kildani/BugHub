@@ -31,7 +31,7 @@
       </font>
    </Button>
    <Line endX="327.0" endY="27.0" layoutX="290.0" layoutY="-7.0" startX="327.0" startY="53.0" stroke="WHITE" />
-   <Button layoutX="617.0" layoutY="20.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Directory" onAction="#switchToEntityDirectory">
+   <Button layoutX="617.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToEntityDirectory" style="-fx-background-color: transparent;" text="Directory">
       <font>
          <Font name="Arial Bold" size="14.0" />
       </font>
@@ -70,7 +70,7 @@
          <Font name="Arial Bold" size="18.0" />
       </font>
    </Label>
-   <Label fx:id="savingDescrHelpLabel" layoutX="375.0" layoutY="316.0" text="*Click again to Save" visible="false">
+   <Label fx:id="savingDescrHelpLabel" layoutX="375.0" layoutY="316.0" text="*Double-Click again to Save" visible="false">
       <font>
          <Font name="Arial" size="12.0" />
       </font>
