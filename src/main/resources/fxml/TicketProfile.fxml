@@ -32,7 +32,7 @@
          </font>
       </Button>
       <Line endX="327.0" endY="27.0" layoutX="285.0" layoutY="-5.0" startX="327.0" startY="53.0" stroke="WHITE" />
-      <Button layoutX="612.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Support">
+      <Button layoutX="612.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Directory" onAction="#switchToEntityDirectory">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>
