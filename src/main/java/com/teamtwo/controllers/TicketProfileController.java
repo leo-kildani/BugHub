@@ -158,5 +158,6 @@ public class TicketProfileController extends AbstractBugHubController implements
 				mouseEvent.consume();
 			}
 		});
+		commentList.setPlaceholder(new Label("Create new comment under \"New Comment\" section!"));
 	}
 }
