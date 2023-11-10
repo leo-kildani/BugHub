@@ -105,7 +105,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
     public void setProject(Project project) {
         this.project = project;
         this.projectTitle.setText(project.getTitle());
-        this.projectDate.setText("Date Created: " + project.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        this.projectDate.setText("Date Created: " + project.getDatetime().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
         this.projectDescr.setText(project.getDescr());
         this.characterCount.setText(project.getDescr().length() + "/256");
 
@@ -143,7 +143,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
         Label ticketDescr = new Label(StringShortener.shortenString(ticket.getDescr(), 70));
         ticketDescr.setWrapText(true);
         listCell.add(ticketDescr, 0, 2);
-        Label ticketDate = new Label(ticket.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        Label ticketDate = new Label(ticket.getDatetime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
         GridPane.setHalignment(ticketDate, HPos.RIGHT);
         listCell.add(ticketDate, 0, 3);
 

@@ -5,25 +5,18 @@ import com.teamtwo.entity.Comment;
 import com.teamtwo.entity.Ticket;
 import com.teamtwo.util.IdGenerator;
 
-import com.teamtwo.util.StringShortener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.*;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class TicketProfileController extends AbstractBugHubController implements Initializable {
@@ -59,7 +52,7 @@ public class TicketProfileController extends AbstractBugHubController implements
 		this.ticket = ticket;
 		this.ticketTitle.setText(ticket.getTitle());
 		this.ticketDescr.setText(ticket.getDescr());
-		this.ticketDate.setText("Date created: " + ticket.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+		this.ticketDate.setText("Date created: " + ticket.getDatetime().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
 		this.characterCount.setText(ticket.getDescr().length() + "/256");
 		
 		this.commentList.getItems().clear();
@@ -130,7 +123,7 @@ public class TicketProfileController extends AbstractBugHubController implements
 		Label ticketDescr = new Label(comment.getDescr());
 		ticketDescr.setWrapText(true);
 		listCell.add(ticketDescr, 0, 1);
-		Label ticketDate = new Label(comment.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+		Label ticketDate = new Label(comment.getDatetime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
 		GridPane.setHalignment(ticketDate, HPos.RIGHT);
 		listCell.add(ticketDate, 0, 2);
 

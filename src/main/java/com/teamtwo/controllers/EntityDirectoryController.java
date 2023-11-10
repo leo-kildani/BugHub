@@ -4,6 +4,7 @@ import com.teamtwo.entity.Project;
 import com.teamtwo.data_model.BugHubDataModel;
 import com.teamtwo.entity.Ticket;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +23,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -39,7 +42,7 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
     private TableColumn<Project, String> projectTitle;
 
     @FXML
-    private TableColumn<Project, LocalDate> projectDate;
+    private TableColumn<Project, String> projectDate;
 
     @FXML
     private TableColumn<Project, Integer> projectTicketCount;
@@ -54,7 +57,7 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
     private TableColumn<Ticket, String> ticketTitle;
 
     @FXML
-    private TableColumn<Ticket, LocalDate> ticketDate;
+    private TableColumn<Ticket, String> ticketDate;
 
     @FXML
     private TableColumn<Ticket, Integer> ticketProjectId;
@@ -80,7 +83,8 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
         });
         projectId.setCellValueFactory(new PropertyValueFactory<>("id"));
         projectTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        projectDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        projectDate.setCellValueFactory(p -> new SimpleStringProperty(
+                p.getValue().getDatetime().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))));
         projectTicketCount.setCellValueFactory(p -> new SimpleIntegerProperty(
         		model
         		.getService()
@@ -101,7 +105,8 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
 
         ticketId.setCellValueFactory(new PropertyValueFactory<>("id"));
         ticketTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        ticketDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        ticketDate.setCellValueFactory(t -> new SimpleStringProperty(
+                t.getValue().getDatetime().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))));
         ticketProjectId.setCellValueFactory(new PropertyValueFactory<>("projectId"));
         ticketCommentCount.setCellValueFactory(t -> new SimpleIntegerProperty(
                 model
@@ -180,6 +185,7 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
                 model.getService().deleteProject(project.getId());
                 projectTable.getItems().remove(project);
                 ticketTable.setItems(FXCollections.observableList(model.getService().getTickets()));
+                model.getController("TICKET_FORM", TicketFormController.class).updateProjectList();
             }
         }
     }
