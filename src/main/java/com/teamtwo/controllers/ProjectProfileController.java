@@ -10,8 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -55,7 +53,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
             }
         });
         projectDescr.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && projectDescr.isEditable()) {
+            if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2 && projectDescr.isEditable()) {
                 savingDescrHelpLabel.setVisible(false);
                 projectDescr.setEditable(false);
                 characterCount.setText(projectDescr.getText().length() + "/256");
@@ -70,6 +68,9 @@ public class ProjectProfileController extends AbstractBugHubController implement
                 mouseEvent.consume();
             }
         });
+        Label placeholder = new Label("Click \"Create Ticket\" to get started!");
+        placeholder.setWrapText(true);
+        ticketList.setPlaceholder(placeholder);
     }
 
     @Override
@@ -97,14 +98,14 @@ public class ProjectProfileController extends AbstractBugHubController implement
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             model.getService().deleteTicket(Integer.parseInt(ticketId.getText()));
             ticketList.getItems().remove(ticketCell);
-            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class).updateProjectCell(project);
+            model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class).updateProjectCell(project);
         }
     }
 
     public void setProject(Project project) {
         this.project = project;
         this.projectTitle.setText(project.getTitle());
-        this.projectDate.setText("Date Created: " + project.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        this.projectDate.setText("Date Created: " + project.getDatetime().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
         this.projectDescr.setText(project.getDescr());
         this.characterCount.setText(project.getDescr().length() + "/256");
 
@@ -142,7 +143,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
         Label ticketDescr = new Label(StringShortener.shortenString(ticket.getDescr(), 70));
         ticketDescr.setWrapText(true);
         listCell.add(ticketDescr, 0, 2);
-        Label ticketDate = new Label(ticket.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        Label ticketDate = new Label(ticket.getDatetime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
         GridPane.setHalignment(ticketDate, HPos.RIGHT);
         listCell.add(ticketDate, 0, 3);
 

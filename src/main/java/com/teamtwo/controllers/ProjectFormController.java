@@ -5,17 +5,12 @@ import com.teamtwo.data_model.BugHubDataModel;
 import com.teamtwo.util.IdGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class ProjectFormController extends AbstractBugHubController {
     @FXML
@@ -35,6 +30,7 @@ public class ProjectFormController extends AbstractBugHubController {
     public void initialize() {
         todaysDate = LocalDate.now();
         startingDate.setValue(todaysDate);
+        descriptionArea.setWrapText(true);
     }
 
     public void loadModel(BugHubDataModel model) {
@@ -81,7 +77,7 @@ public class ProjectFormController extends AbstractBugHubController {
 
             model.getService().addProject(p);
 
-            model.getController("PROJECT_DIRECTORY", ProjectDirectoryController.class)
+            model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class)
                     .getProjectTable()
                     .getItems()
                     .add(p);

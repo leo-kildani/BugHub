@@ -1,13 +1,13 @@
 package com.teamtwo.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public abstract class AbstractEntry {
 
     protected int id;
     protected String title, descr;
-    protected LocalDate date;
+    protected LocalDateTime datetime;
 
     public AbstractEntry() {
 
@@ -24,7 +24,7 @@ public abstract class AbstractEntry {
         this.id = id;
         this.title = title;
         this.descr = descr;
-        this.date = LocalDate.now();
+        this.datetime = LocalDateTime.now();
     }
 
     /**
@@ -33,17 +33,17 @@ public abstract class AbstractEntry {
      * @param id id to be associated with this entry
      * @param title title to be associated with this entry
      * @param descr description to be associated with this entry
-     * @param date date this entry was created on
+     * @param datetime date this entry was created on
      * {@link AbstractEntry#id}
      * {@link AbstractEntry#title}
      * {@link AbstractEntry#descr}
-     * {@link AbstractEntry#date}
+     * {@link AbstractEntry#datetime}
      */
-    public AbstractEntry(int id, String title, String descr, LocalDate date) {
+    public AbstractEntry(int id, String title, String descr, LocalDateTime datetime) {
         this.id = id;
         this.title = title;
         this.descr = descr;
-        this.date = date;
+        this.datetime = datetime;
     }
 
     public int getId() {
@@ -70,12 +70,12 @@ public abstract class AbstractEntry {
         this.descr = descr;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getDatetime() {
+        return datetime;
     }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    
+    public void setDatetime(LocalDateTime datetime) {
+        this.datetime = datetime;
     }
 
     @Override
@@ -83,11 +83,11 @@ public abstract class AbstractEntry {
         if (this == o) return true;
         if (!(o instanceof AbstractEntry)) return false;
         AbstractEntry that = (AbstractEntry) o;
-        return id == that.id && Objects.equals(title, that.title) && Objects.equals(descr, that.descr) && Objects.equals(date, that.date);
+        return id == that.id && Objects.equals(title, that.title) && Objects.equals(descr, that.descr) && Objects.equals(datetime, that.datetime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, descr, date);
+        return Objects.hash(id, title, descr, datetime);
     }
 }

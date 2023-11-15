@@ -28,7 +28,7 @@
       </font>
    </Button>
    <Line endX="327.0" endY="27.0" layoutX="285.0" layoutY="-5.0" startX="327.0" startY="53.0" stroke="WHITE" />
-   <Button layoutX="612.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Support">
+   <Button layoutX="612.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Directory" onAction="#switchToEntityDirectory">
       <font>
          <Font name="Arial Bold" size="14.0" />
       </font>
@@ -48,7 +48,7 @@
          <Font name="Arial Bold" size="30.0" />
       </font>
    </Text>
-   <Button layoutX="329.0" layoutY="288.0" mnemonicParsing="false" onAction="#switchToProjectDirectory" prefHeight="36.0" prefWidth="131.0" style="-fx-background-color: #afb4b9;" text="View Projects">
+   <Button layoutX="329.0" layoutY="288.0" mnemonicParsing="false" onAction="#switchToEntityDirectory" prefHeight="36.0" prefWidth="131.0" style="-fx-background-color: #afb4b9;" text="View Directory">
       <font>
          <Font name="Arial Bold" size="14.0" />
       </font>

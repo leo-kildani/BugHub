@@ -35,5 +35,6 @@ public interface BugHubService {
 	public Ticket getTicket(int ticketId);
 	
 	public Comment getComment(int commentId);
-	
+
+	public void closeProject() throws Exception;
 }
