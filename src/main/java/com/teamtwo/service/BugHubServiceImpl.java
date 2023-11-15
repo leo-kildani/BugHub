@@ -110,4 +110,8 @@ public class BugHubServiceImpl implements BugHubService {
 		return dao.getComment(commentId);
 	}
 
+	@Override
+	public void closeProject() throws Exception {
+		dao.close();
+	}
 }

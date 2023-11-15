@@ -12,8 +12,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
-
-	private BugHubDataAccess dao;
 	private BugHubService service;
     private BugHubDataModel model;
 
@@ -27,8 +25,7 @@ public class Main extends Application {
     
     @Override
     public void init() throws IOException {
-        this.dao = new BugHubDataAccessFileImpl();
-        this.service = new BugHubServiceImpl(dao);
+        this.service = new BugHubServiceImpl(new BugHubDataAccessFileImpl());
         this.model = new BugHubDataModel(this.service);
     }
 
@@ -44,6 +41,6 @@ public class Main extends Application {
 
     @Override
     public void stop() throws Exception {
-        dao.close();
+        service.closeProject();
     }
 }
