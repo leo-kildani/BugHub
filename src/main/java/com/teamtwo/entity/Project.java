@@ -1,6 +1,7 @@
 package com.teamtwo.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class Project extends AbstractEntry {
      * @param descr description associated with this project
      * @param date date associated with this project
      */
-    public Project(int id, String title, String descr, LocalDate date) {
-        super(id, title, descr, date.atStartOfDay());
+    public Project(int id, String title, String descr, LocalDateTime date) {
+        super(id, title, descr, date);
     }
 }

@@ -62,16 +62,18 @@ public class ProjectProfileController extends AbstractBugHubController implement
         this.model = model;
     }
 
-
+    @FXML
+    public void editProject(ActionEvent e) {
+        switchToProjectForm(e, project);
+    }
 
     @FXML
-    public void openTicket(ActionEvent event) throws IOException {
+    public void openTicket(ActionEvent event) {
         GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
         if (ticketCell != null) {
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             Ticket ticket = model.getService().getTicket(Integer.parseInt(ticketId.getText()));
-            model.getController("TICKET_PROFILE", TicketProfileController.class).setTicket(ticket);
-            switchToTicketProfile(event);
+            switchToTicketProfile(event, ticket);
         }
     }
 
