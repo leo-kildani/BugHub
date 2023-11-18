@@ -34,6 +34,9 @@ public class ProjectProfileController extends AbstractBugHubController implement
 
     @FXML
     private TextArea projectDescr;
+    
+    @FXML
+    private TextField projTitleEditor;
 
     @FXML
     private Label savingDescrHelpLabel;
@@ -71,6 +74,7 @@ public class ProjectProfileController extends AbstractBugHubController implement
         Label placeholder = new Label("Click \"Create Ticket\" to get started!");
         placeholder.setWrapText(true);
         ticketList.setPlaceholder(placeholder);
+        
     }
 
     @Override
@@ -148,5 +152,15 @@ public class ProjectProfileController extends AbstractBugHubController implement
         listCell.add(ticketDate, 0, 3);
 
         return listCell;
+    }
+    
+    @FXML
+    private void editTitle() {
+    	if(projTitleEditor != null) {
+    		project.setTitle(projTitleEditor.getText());
+        	projTitleEditor.clear();
+        	projectTitle.setText(project.getTitle());
+        	model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class).updateProjectCell(this.project);
+    	}
     }
 }
