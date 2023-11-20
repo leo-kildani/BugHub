@@ -201,21 +201,18 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
     }
 
     @FXML
-    public void openProjectProfile(ActionEvent event) throws IOException {
+    public void openProjectProfile(ActionEvent event) {
         Project project = projectTable.getSelectionModel().getSelectedItem();
         if (project != null) {
-            ProjectProfileController controller = model.getController("PROJECT_PROFILE", ProjectProfileController.class);
-            controller.setProject(project);
-            switchToProjectProfile(event);
+            switchToProjectProfile(event, project);
         }
     }
 
     @FXML
-    public void openTicketProfile(ActionEvent event) throws IOException {
+    public void openTicketProfile(ActionEvent event) {
         Ticket ticket = ticketTable.getSelectionModel().getSelectedItem();
         if (ticket != null) {
-            model.getController("TICKET_PROFILE", TicketProfileController.class).setTicket(ticket);
-            switchToTicketProfile(event);
+            switchToTicketProfile(event, ticket);
         }
     }
 

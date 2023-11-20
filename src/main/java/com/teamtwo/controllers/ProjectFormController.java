@@ -10,6 +10,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class ProjectFormController extends AbstractBugHubController {
@@ -22,8 +23,12 @@ public class ProjectFormController extends AbstractBugHubController {
     
     @FXML
     private LocalDate todaysDate;
+
+    private boolean isEditable;
+
+    private Integer editProjectId;
     
-    private int nameCharLimit =64;
+    private int nameCharLimit = 64;
     private int descriptionCharLimit =256;
     
     @FXML
@@ -31,16 +36,24 @@ public class ProjectFormController extends AbstractBugHubController {
         todaysDate = LocalDate.now();
         startingDate.setValue(todaysDate);
         descriptionArea.setWrapText(true);
+        isEditable = false;
+        editProjectId = null;
     }
 
     public void loadModel(BugHubDataModel model) {
         this.model = model;
     }
 
-    public void clearForm(ActionEvent e) {
+    public void clearForm() {
         projectNameField.clear();
         startingDate.setValue(null);
         descriptionArea.clear();
+    }
+
+    private void clearEditingForm() {
+        clearForm();
+        isEditable = false;
+        editProjectId = null;
     }
 
     /*
@@ -69,22 +82,39 @@ public class ProjectFormController extends AbstractBugHubController {
             alert.showAndWait();
         }
         else {
-            int id = IdGenerator.generateId();
-            while (model.getService().getProject(id) != null)
-                id = IdGenerator.generateId();
-            
-            Project p = new Project(id, projectName, projectDescription, startDate);
+            Project p;
+            if (isEditable) {
+                p = model.getService().getProject(editProjectId);
+                p.setTitle(projectName);
+                p.setDescr(projectDescription);
+                p.setDatetime(startDate.atStartOfDay());
 
-            model.getService().addProject(p);
+                model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class).updateProjectCell(p);
+                switchToProjectProfile(e, p);
+            } else {
+                int id = IdGenerator.generateId();
+                while (model.getService().getProject(id) != null)
+                    id = IdGenerator.generateId();
 
-            model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class)
-                    .getProjectTable()
-                    .getItems()
-                    .add(p);
+                p = new Project(id, projectName, projectDescription, startDate.atStartOfDay());
 
+                model.getService().addProject(p);
+
+                model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class)
+                        .getProjectTable()
+                        .getItems()
+                        .add(p);
+            }
             model.getController("TICKET_FORM", TicketFormController.class).updateProjectList();
-
-            clearForm(e);
+            clearEditingForm();
         }
+    }
+
+    public void setProjectToEdit(Project p) {
+        isEditable = true;
+        projectNameField.setText(p.getTitle());
+        startingDate.setValue(p.getDatetime().toLocalDate());
+        descriptionArea.setText(p.getDescr());
+        editProjectId = p.getId();
     }
 }

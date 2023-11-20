@@ -45,22 +45,6 @@ public class ProjectProfileController extends AbstractBugHubController implement
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        projectDescr.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
-                savingDescrHelpLabel.setVisible(true);
-                projectDescr.setEditable(true);
-                mouseEvent.consume();
-            }
-        });
-        projectDescr.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2 && projectDescr.isEditable()) {
-                savingDescrHelpLabel.setVisible(false);
-                projectDescr.setEditable(false);
-                characterCount.setText(projectDescr.getText().length() + "/256");
-                project.setDescr(projectDescr.getText());
-                mouseEvent.consume();
-            }
-        });
         ticketList.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             GridPane selectedCell = ticketList.getSelectionModel().getSelectedItem();
             if (selectedCell != null) {
@@ -78,16 +62,18 @@ public class ProjectProfileController extends AbstractBugHubController implement
         this.model = model;
     }
 
-
+    @FXML
+    public void editProject(ActionEvent e) {
+        switchToProjectForm(e, project);
+    }
 
     @FXML
-    public void openTicket(ActionEvent event) throws IOException {
+    public void openTicket(ActionEvent event) {
         GridPane ticketCell = ticketList.getSelectionModel().getSelectedItem();
         if (ticketCell != null) {
             Label ticketId = (Label) ticketCell.getChildren().get(0);
             Ticket ticket = model.getService().getTicket(Integer.parseInt(ticketId.getText()));
-            model.getController("TICKET_PROFILE", TicketProfileController.class).setTicket(ticket);
-            switchToTicketProfile(event);
+            switchToTicketProfile(event, ticket);
         }
     }
 
