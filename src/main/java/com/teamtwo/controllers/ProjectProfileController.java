@@ -11,17 +11,15 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 
-public class ProjectProfileController extends AbstractBugHubController implements Initializable {
+public class ProjectProfileController extends PageSwitchController implements Initializable {
 
     @FXML
     private Label projectTitle;
@@ -34,9 +32,6 @@ public class ProjectProfileController extends AbstractBugHubController implement
 
     @FXML
     private TextArea projectDescr;
-
-    @FXML
-    private Label savingDescrHelpLabel;
 
     @FXML
     private ListView<GridPane> ticketList;
@@ -63,8 +58,8 @@ public class ProjectProfileController extends AbstractBugHubController implement
     }
 
     @FXML
-    public void editProject(ActionEvent e) {
-        switchToProjectForm(e, project);
+    public void editProject(ActionEvent event) {
+        switchToProjectForm(event, project);
     }
 
     @FXML

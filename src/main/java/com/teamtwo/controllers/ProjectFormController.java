@@ -10,10 +10,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
-public class ProjectFormController extends AbstractBugHubController {
+public class ProjectFormController extends PageSwitchController {
     @FXML
     private TextField projectNameField;
     @FXML
@@ -29,7 +28,7 @@ public class ProjectFormController extends AbstractBugHubController {
     private Integer editProjectId;
     
     private int nameCharLimit = 64;
-    private int descriptionCharLimit =256;
+    private int descriptionCharLimit = 256;
     
     @FXML
     public void initialize() {
@@ -60,7 +59,7 @@ public class ProjectFormController extends AbstractBugHubController {
      * This method will save all the contents given by the user for the project they want to save.
      * If there is a missing name or description, the user will be prompted to fill in those fields.
      */
-    public void saveForm(ActionEvent e) {
+    public void saveForm(ActionEvent event) {
         String projectName = projectNameField.getText();
         String projectDescription = descriptionArea.getText();
         LocalDate startDate = startingDate.getValue();
@@ -90,7 +89,7 @@ public class ProjectFormController extends AbstractBugHubController {
                 p.setDatetime(startDate.atStartOfDay());
 
                 model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class).updateProjectCell(p);
-                switchToProjectProfile(e, p);
+                switchToProjectProfile(event, p);
             } else {
                 int id = IdGenerator.generateId();
                 while (model.getService().getProject(id) != null)
