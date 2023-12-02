@@ -1,6 +1,7 @@
 package com.teamtwo.controllers;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -87,6 +88,7 @@ public class TicketFormController extends PageSwitchController implements Initia
                 t.setTitle(ticketName);
                 t.setDescr(ticketDescription);
                 t.setProjectId(project.getId());
+                t.setDatetime(LocalDateTime.now());
                 controller.updateTicketCell(t);
                 switchToTicketProfile(event, t);
             } else {
