@@ -8,9 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 
-import java.io.IOException;
-
-public abstract class AbstractBugHubController implements BugHubController {
+public abstract class PageSwitchController implements BugHubController {
 
     protected BugHubDataModel model;
 
@@ -25,8 +23,7 @@ public abstract class AbstractBugHubController implements BugHubController {
     @FXML
     public void switchToProjectForm(ActionEvent event, Project project) {
         model.getController("PROJECT_FORM", ProjectFormController.class).setProjectToEdit(project);
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(model.getNode("PROJECT_FORM"));
+        switchToProjectForm(event);
     }
 
     @FXML
@@ -52,6 +49,12 @@ public abstract class AbstractBugHubController implements BugHubController {
     public void switchToTicketForm(ActionEvent event) {
         Scene scene = ((Node) event.getSource()).getScene();
         scene.setRoot(model.getNode("TICKET_FORM"));
+    }
+
+    @FXML
+    public void switchToTicketForm(ActionEvent event, Ticket ticket) {
+        model.getController("TICKET_FORM", TicketFormController.class).setTicketToEdit(ticket);
+        switchToTicketForm(event);
     }
 
     @FXML

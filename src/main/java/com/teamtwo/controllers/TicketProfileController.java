@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 
-public class TicketProfileController extends AbstractBugHubController implements Initializable {
+public class TicketProfileController extends PageSwitchController implements Initializable {
 	
 	@FXML
 	private Label ticketTitle;
@@ -60,12 +60,17 @@ public class TicketProfileController extends AbstractBugHubController implements
 			commentList.getItems().add(createCommentListCell(c));
 		}
 	}
-	
-    public void clearForm(ActionEvent e) {
+
+	@FXML
+	public void openTicketProject(ActionEvent event) {
+		switchToProjectProfile(event, model.getService().getProject(ticket.getProjectId()));
+	}
+
+    public void clearForm(ActionEvent event) {
         descriptionArea.clear();
     }
 
-	public void deleteComment(ActionEvent e) {
+	public void deleteComment() {
 		GridPane commentCell = commentList.getSelectionModel().getSelectedItem();
 		if (commentCell != null) {
 			Label commentId = (Label) commentCell.getChildren().get(0);
@@ -75,7 +80,7 @@ public class TicketProfileController extends AbstractBugHubController implements
 		}
 	}
 	
-	public void saveComment(ActionEvent e) {
+	public void saveComment(ActionEvent event) {
         String commentDescription = descriptionArea.getText();
         
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -93,7 +98,7 @@ public class TicketProfileController extends AbstractBugHubController implements
             model.getService().addComment(c);
             commentList.getItems().add(createCommentListCell(c));
 			model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class).updateTicketCell(ticket);
-			clearForm(e);
+			clearForm(event);
         }
 	}
 	
@@ -133,23 +138,7 @@ public class TicketProfileController extends AbstractBugHubController implements
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		descriptionArea.setWrapText(true);
-		ticketDescr.setWrapText(true);
-		ticketDescr.setOnMouseClicked(mouseEvent -> {
-			if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
-				savingDescrHelpLabel.setVisible(true);
-				ticketDescr.setEditable(true);
-				mouseEvent.consume();
-			}
-		});
-		ticketDescr.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-			if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2 && ticketDescr.isEditable()) {
-				savingDescrHelpLabel.setVisible(false);
-				ticketDescr.setEditable(false);
-				characterCount.setText(ticketDescr.getText().length() + "/256");
-				ticket.setDescr(ticketDescr.getText());
-				mouseEvent.consume();
-			}
-		});
+		descriptionArea.setEditable(false);
 		commentList.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
 			GridPane selectedCell = commentList.getSelectionModel().getSelectedItem();
 			if (selectedCell != null) {
@@ -160,5 +149,9 @@ public class TicketProfileController extends AbstractBugHubController implements
 		Label placeholder = new Label("Create new comment under \"New Comment\" section!");
 		placeholder.setWrapText(true);
 		commentList.setPlaceholder(placeholder);
+	}
+
+	public void editTicket(ActionEvent event) {
+		switchToTicketForm(event, ticket);
 	}
 }

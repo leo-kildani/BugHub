@@ -21,16 +21,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class EntityDirectoryController extends AbstractBugHubController implements Initializable {
+public class EntityDirectoryController extends PageSwitchController implements Initializable {
 
     @FXML
     private TableView<Project> projectTable;
@@ -163,7 +161,7 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
     }
 
     @FXML
-    public void deleteProject(ActionEvent event) {
+    public void deleteProject() {
         Project project = projectTable.getSelectionModel().getSelectedItem();
         
         if (project != null) {
@@ -191,7 +189,7 @@ public class EntityDirectoryController extends AbstractBugHubController implemen
     }
 
     @FXML
-    public void deleteTicket(ActionEvent event) {
+    public void deleteTicket() {
         Ticket ticket = ticketTable.getSelectionModel().getSelectedItem();
         if (ticket != null) {
             model.getService().deleteTicket(ticket.getId());
