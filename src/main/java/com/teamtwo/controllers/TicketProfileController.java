@@ -60,7 +60,12 @@ public class TicketProfileController extends PageSwitchController implements Ini
 			commentList.getItems().add(createCommentListCell(c));
 		}
 	}
-	
+
+	@FXML
+	public void openTicketProject(ActionEvent event) {
+		switchToProjectProfile(event, model.getService().getProject(ticket.getProjectId()));
+	}
+
     public void clearForm(ActionEvent event) {
         descriptionArea.clear();
     }

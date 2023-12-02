@@ -81,5 +81,6 @@
       </Text>
       <Button layoutX="297.0" layoutY="421.0" mnemonicParsing="false" onAction="#clearForm" text="Clear" />
       <Button layoutX="583.0" layoutY="103.0" mnemonicParsing="false" onAction="#editTicket" text="Edit Ticket" />
+      <Button layoutX="399.0" layoutY="447.0" mnemonicParsing="false" onAction="#openTicketProject" text="Return to Project" />
    </children>
 </AnchorPane>
