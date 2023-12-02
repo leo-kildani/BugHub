@@ -50,6 +50,12 @@ public class TicketFormController extends PageSwitchController implements Initia
         projectList.setItems(projectCol);
     }
 
+    @Override
+    public void switchToMainMenu(ActionEvent e) {
+        clearEditingForm();
+        super.switchToMainMenu(e);
+    }
+
     public void clearForm() {
     	ticketNameField.clear();
         projectList.setValue(null);
