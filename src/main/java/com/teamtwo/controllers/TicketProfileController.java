@@ -26,35 +26,35 @@ public class TicketProfileController extends PageSwitchController implements Ini
 	
 	@FXML
 	private Label ticketDate;
-	
+
 	@FXML
 	private Label characterCount;
-	
+
 	@FXML
 	private TextArea ticketDescr;
 
 	@FXML
 	private Label savingDescrHelpLabel;
-	
+
 	private Ticket ticket;
-	
+
 	@FXML
 	private ListView<GridPane> commentList;
 
     @FXML
-    private TextArea descriptionArea;
-	
+    private TextArea newCommentField;
+
 	public void loadModel(BugHubDataModel model) {
 		this.model = model;
 	}
-	
+
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
 		this.ticketTitle.setText(ticket.getTitle());
 		this.ticketDescr.setText(ticket.getDescr());
 		this.ticketDate.setText("Date created: " + ticket.getDatetime().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
 		this.characterCount.setText(ticket.getDescr().length() + "/256");
-		
+
 		this.commentList.getItems().clear();
 		for(Comment c : model.getService().getCommentsByTicketId(ticket.getId())) {
 			commentList.getItems().add(createCommentListCell(c));
@@ -67,7 +67,7 @@ public class TicketProfileController extends PageSwitchController implements Ini
 	}
 
     public void clearForm(ActionEvent event) {
-        descriptionArea.clear();
+        newCommentField.clear();
     }
 
 	public void deleteComment() {
@@ -79,15 +79,15 @@ public class TicketProfileController extends PageSwitchController implements Ini
 			model.getController("ENTITY_DIRECTORY", EntityDirectoryController.class).updateTicketCell(ticket);
 		}
 	}
-	
+
 	public void saveComment(ActionEvent event) {
-        String commentDescription = descriptionArea.getText();
-        
+        String commentDescription = newCommentField.getText();
+
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Error");
         alert.setHeaderText("Missing Credentials");
         alert.setContentText("Do not leave any textfields empty before saving");
-        
+
         if(commentDescription.isEmpty()) {
         	alert.showAndWait();
         } else {
@@ -101,7 +101,7 @@ public class TicketProfileController extends PageSwitchController implements Ini
 			clearForm(event);
         }
 	}
-	
+
 	private GridPane createCommentListCell(Comment comment) {
 		GridPane listCell = new GridPane();
 		listCell.setMaxSize(commentList.getPrefWidth(), Math.floor(commentList.getPrefHeight() / 2));
@@ -122,23 +122,23 @@ public class TicketProfileController extends PageSwitchController implements Ini
 		listCell.getRowConstraints().addAll(hiddenData, heavyData, regData);
 
 		// make/add labels in order
-		Label ticketId = new Label(String.valueOf(comment.getId()));
-		ticketId.setVisible(false);
-		listCell.add(ticketId, 0, 0);
-		Label ticketDescr = new Label(comment.getDescr());
-		ticketDescr.setWrapText(true);
-		listCell.add(ticketDescr, 0, 1);
-		Label ticketDate = new Label(comment.getDatetime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
-		GridPane.setHalignment(ticketDate, HPos.RIGHT);
-		listCell.add(ticketDate, 0, 2);
+		Label commentId = new Label(String.valueOf(comment.getId()));
+		commentId.setVisible(false);
+		listCell.add(commentId, 0, 0);
+		Label commentDescr = new Label(comment.getDescr());
+		commentDescr.setWrapText(true);
+		listCell.add(commentDescr, 0, 1);
+		Label commentDate = new Label(comment.getDatetime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+		GridPane.setHalignment(commentDate, HPos.RIGHT);
+		listCell.add(commentDate, 0, 2);
 
 		return listCell;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		descriptionArea.setWrapText(true);
-		descriptionArea.setEditable(false);
+		ticketDescr.setEditable(false);
+		newCommentField.setWrapText(true);
 		commentList.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
 			GridPane selectedCell = commentList.getSelectionModel().getSelectedItem();
 			if (selectedCell != null) {

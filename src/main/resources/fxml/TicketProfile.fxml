@@ -62,7 +62,7 @@
             <Font name="Arial Italic" size="13.0" />
          </font>
       </Label>
-      <TextArea fx:id="descriptionArea" layoutX="67.0" layoutY="377.0" prefHeight="37.0" prefWidth="275.0" promptText="New Comment..." />
+      <TextArea fx:id="newCommentField" layoutX="67.0" layoutY="377.0" prefHeight="37.0" prefWidth="275.0" promptText="New Comment..." />
       <Label layoutX="141.0" layoutY="344.0" text="New Comment">
          <font>
             <Font name="Arial Bold" size="18.0" />
